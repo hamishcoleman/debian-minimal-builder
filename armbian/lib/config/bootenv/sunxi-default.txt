@@ -1,3 +1,0 @@
-verbosity=7
-console=both
-disp_mode=1920x1080p60
