@@ -1,3 +1,4 @@
+#!/bin/sh
 # Save current configurations to partition containing conf.d
 #
 # Copyright (C) 2018 Benedict Lau <benedict.lau@groundupworks.com>
