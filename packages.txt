@@ -1,0 +1,5 @@
+# An example file adding packages
+#
+
+# Uncomment the following line to install the package
+#vim-tiny
