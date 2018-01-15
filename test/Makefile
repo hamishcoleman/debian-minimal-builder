@@ -48,7 +48,7 @@ persistant.storage:
 
 test: $(DEBIAN_KERNEL) combined.initrd persistant.storage
 	qemu-system-x86_64 -enable-kvm -append console=ttyS0 \
-	    -m 512 \
+	    -m 1024 \
 	    -kernel $(DEBIAN_KERNEL) \
 	    -initrd combined.initrd \
 	    -netdev type=user,id=e0 -device virtio-net-pci,netdev=e0 \
