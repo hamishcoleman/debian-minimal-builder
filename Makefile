@@ -11,7 +11,7 @@
 CONFIGDIRS ?= .
 
 CONFIG_DEBIAN = stretch
-CONFIG_DEBIAN_ARCH = armhf
+CONFIG_DEBIAN_ARCH ?= armhf
 
 CONFIG_ROOT_PASS = root
 
@@ -30,6 +30,11 @@ all:
 	$(info Build a platform neutral debian install)
 	$(info Try: $(MAKE) build/debian.stretch.armhf.cpio CONFIG_DEBIAN_ARCH=armhf)
 	$(info or other variations for i386)
+
+# Build and boot a test environment
+.PHONY: test
+test:
+	$(MAKE) -C test
 
 # install any packages needed for this builder
 build-depends: $(TAG)/build-depends
