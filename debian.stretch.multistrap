@@ -10,6 +10,7 @@ source=http://httpredir.debian.org/debian
 suite=stretch
 omitdebsrc=true
 keyring=debian-archive-keyring
+components=main contrib non-free
 
 # Base system needs these three packages
 packages= systemd udev kmod
