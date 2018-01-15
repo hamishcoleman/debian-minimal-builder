@@ -30,7 +30,7 @@ mount -t proc proc /proc
 cat /proc/partitions | while read major minor size name; do
     # Check each partition matching sd*[0-9] (e.g. sda1) or mmcblk*p* (e.g. mmcblk0p1)
     case $name in
-        sd*[0-9]|mmcblk*p*)
+        vd*[0-9]|sd*[0-9]|mmcblk*p*)
             echo Checking for configuration files on $name
             try_partition $name $major $minor
             ;;
