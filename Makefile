@@ -69,7 +69,7 @@ $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH): $(MULTISTRAP_CONF)
 $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH): multistrap.configscript
 $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH): $(DEBOOT)/dev/urandom
 	sudo /usr/sbin/multistrap -d $(DEBOOT) --arch $(CONFIG_DEBIAN_ARCH) \
-	    -f $(MULTISTRAP_CONF)
+	    -f $(MULTISTRAP_CONF) >$(BUILD)/multistrap-pre.log
 	$(call tag,multistrap-pre.$(CONFIG_DEBIAN_ARCH))
 
 # TODO: if TARGET_ARCH == BUILD_ARCH, dont need to copy qemu
@@ -79,7 +79,7 @@ $(DEBOOT)/usr/bin/qemu-arm-static: /usr/bin/qemu-arm-static
 
 # multistrap-post runs the package configure scripts under emulation
 $(TAG)/multistrap-post.$(CONFIG_DEBIAN_ARCH): $(DEBOOT)/usr/bin/qemu-arm-static $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH)
-	sudo chroot $(DEBOOT) ./multistrap.configscript
+	sudo chroot $(DEBOOT) ./multistrap.configscript >>$(BUILD)/multistrap.log
 	$(call tag,multistrap-post.$(CONFIG_DEBIAN_ARCH))
 
 # perform the debian install
