@@ -43,12 +43,16 @@ combined.initrd: $(DEBIAN_MODULES) ../build/debian.stretch.i386.cpio
 	cat $^ >$@
 CLEAN_FILES += combined.initrd
 
-test: $(DEBIAN_KERNEL) combined.initrd
+persistant.storage:
+	truncate -s 2G $@
+
+test: $(DEBIAN_KERNEL) combined.initrd persistant.storage
 	qemu-system-x86_64 -enable-kvm -append console=ttyS0 \
 	    -m 512 \
 	    -kernel $(DEBIAN_KERNEL) \
 	    -initrd combined.initrd \
 	    -netdev type=user,id=e0 -device virtio-net-pci,netdev=e0 \
+	    -drive if=virtio,format=raw,file=persistant.storage \
 	    -nographic
 
 clean:
