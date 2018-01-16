@@ -116,7 +116,7 @@ $(TAG)/minimise.$(CONFIG_DEBIAN_ARCH): $(TAG)/multistrap.$(CONFIG_DEBIAN_ARCH)
 $(TAG)/fixup.$(CONFIG_DEBIAN_ARCH): $(TAG)/multistrap.$(CONFIG_DEBIAN_ARCH)
 	sudo --preserve-env=CONFIGDIRS ./packages.addextra $(DEBOOT) $(CONFIG_DEBIAN_ARCH) fixup
 	sudo --preserve-env=CONFIGDIRS ./packages.runscripts $(DEBOOT) $(CONFIG_DEBIAN_ARCH) fixup
-	sudo rm $(DEBOOT)/usr/sbin/policy-rc.d
+	sudo rm -f $(DEBOOT)/usr/sbin/policy-rc.d
 	$(call tag,fixup.$(CONFIG_DEBIAN_ARCH))
 
 # image customisation - setting the default config.
