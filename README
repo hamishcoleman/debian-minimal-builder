@@ -7,8 +7,8 @@ build when run on a Debian system.  It requires that you are running a
 system with the apt and dpkg software.  See below for building on Ubuntu.
 
 It currently only creates a very minimal debian system, however it is
-intended that additional configuration can be added for specific use
-cases (see the Configuring section, below)
+intended that additional configuration can be added at both build time
+and at runtime for specific use cases (see the Configuration sections, below)
 
 Usage:
 
@@ -20,8 +20,8 @@ After making sure the needed packages are installed, you just need to
 run the full build.  The resulting image can be used to build a ramdisk
 install - see the boards directory for various builders
 
-Configuring
------------
+Build time Configuration
+------------------------
 
 The various fixups and customisation that are applied to the basic Debian
 installation can be seen in the packages.d directory (See the README
@@ -69,6 +69,39 @@ packages.d
     All the package minimisation/fixup/add phases will look in every CONFIGDIR
     to find settings to apply - all matching files all the CONFIGDIRS will be
     applied.
+
+Runtime Configuration
+---------------------
+
+During bootup - and before systemd starts - the scripts will scan all found
+block devices looking for filesystems with a "/conf.d" directory in their
+root and load any configuration found.  This script will not load any kernel
+modules, so unless the block driver and filesystem have been statically
+compiled, it will not find the filesystem.
+
+These configuration files are simply tar.gz archives and are extracted in
+alphabetical order to /etc of the ramdisk, so files in an archive towards the
+end of the list will overwrite those from an earlier archive in case of a
+filename conflict, and systemd will only see the final (highest priority)
+configurations.
+
+For example:
+
+    /conf.d/00-tomesh-base.tar.gz
+            10-tomesh-wlan-mesh-top-gs07-rt5572.tar.gz
+            11-tomesh-wlan-hostap-tplink-tl-wn722n.tar.gz
+            50-node-config-save.tar.gz
+            90-user-custom-configs.tar.gz
+
+This allows local communities to customize nodes by distributing archives
+of systemd.network configuration files, or any files that are to be read from
+/etc. The user simply mounts the fat filesystem like a USB key and drops tar.gz
+files into conf.d and can easily back them up across software updates.
+
+If while running, you wish to save the current configuration, the
+"config_save" script can be used to save the current /etc directory into an
+archive called 50-node-config-save.tar.gz on the first block device found that
+has a /conf.d directory.
 
 Building on Ubuntu
 ------------------
