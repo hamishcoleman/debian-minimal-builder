@@ -47,9 +47,10 @@ $(DEBOOT)/dev/urandom:
 	mkdir -p $(DEBOOT)/dev
 	sudo mknod $(DEBOOT)/dev/urandom c 1 9
 
-$(DEBOOT)/usr/sbin/policy-rc.d: policy-rc.d
-	sudo mkdir -p $(dir $@)
-	sudo cp $< $@
+$(TAG)/policy-rc.d.add: policy-rc.d
+	sudo mkdir -p $(DEBOOT)/usr/sbin
+	sudo cp $< $(DEBOOT)/usr/sbin/policy-rc.d
+	$(call tag,policy-rc.d.add)
 
 # a list of files, which contain additional packages to install
 packages_lists := $(wildcard $(addsuffix /packages.txt,$(CONFIGDIRS)))
@@ -69,7 +70,7 @@ $(MULTISTRAP_CONF): $(multistrap_conf_src) $(package_lists)
 
 # multistrap-pre runs the basic multistrap program, installing the packages
 # until they need to run native code
-$(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH): $(DEBOOT)/usr/sbin/policy-rc.d
+$(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH): $(TAG)/policy-rc.d.add
 $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH): $(MULTISTRAP_CONF)
 $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH): multistrap.configscript
 $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH): $(DEBOOT)/dev/urandom
