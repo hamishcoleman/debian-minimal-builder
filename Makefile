@@ -106,23 +106,23 @@ $(TAG)/multistrap.$(CONFIG_DEBIAN_ARCH): $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_A
 
 # minimise the image size
 $(TAG)/minimise.$(CONFIG_DEBIAN_ARCH): $(TAG)/multistrap.$(CONFIG_DEBIAN_ARCH)
-	sudo --preserve-env=CONFIGDIRS ./packages.addextra $(DEBOOT) $(CONFIG_DEBIAN_ARCH) minimise
-	sudo --preserve-env=CONFIGDIRS ./packages.runscripts $(DEBOOT) $(CONFIG_DEBIAN_ARCH) minimise
+	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./packages.addextra $(DEBOOT) $(CONFIG_DEBIAN_ARCH) minimise
+	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./packages.runscripts $(DEBOOT) $(CONFIG_DEBIAN_ARCH) minimise
 	sudo rm -f $(DEBOOT)/multistrap.configscript $(DEBOOT)/dev/mmcblk0
 	#sudo rm -f $(DEBOOT)/usr/bin/qemu-arm-static
 	$(call tag,minimise.$(CONFIG_DEBIAN_ARCH))
 
 # fixup the image to actually boot
 $(TAG)/fixup.$(CONFIG_DEBIAN_ARCH): $(TAG)/multistrap.$(CONFIG_DEBIAN_ARCH)
-	sudo --preserve-env=CONFIGDIRS ./packages.addextra $(DEBOOT) $(CONFIG_DEBIAN_ARCH) fixup
-	sudo --preserve-env=CONFIGDIRS ./packages.runscripts $(DEBOOT) $(CONFIG_DEBIAN_ARCH) fixup
-	sudo rm -f $(DEBOOT)/usr/sbin/policy-rc.d
+	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./packages.addextra $(DEBOOT) $(CONFIG_DEBIAN_ARCH) fixup
+	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./packages.runscripts $(DEBOOT) $(CONFIG_DEBIAN_ARCH) fixup
+	sudo rm $(DEBOOT)/usr/sbin/policy-rc.d
 	$(call tag,fixup.$(CONFIG_DEBIAN_ARCH))
 
 # image customisation - setting the default config.
 $(TAG)/customise.$(CONFIG_DEBIAN_ARCH): $(TAG)/multistrap.$(CONFIG_DEBIAN_ARCH)
-	sudo --preserve-env=CONFIGDIRS ./packages.addextra $(DEBOOT) $(CONFIG_DEBIAN_ARCH) customise
-	sudo --preserve-env=CONFIGDIRS ./packages.runscripts $(DEBOOT) $(CONFIG_DEBIAN_ARCH) customise
+	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./packages.addextra $(DEBOOT) $(CONFIG_DEBIAN_ARCH) customise
+	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./packages.runscripts $(DEBOOT) $(CONFIG_DEBIAN_ARCH) customise
 	echo root:$(CONFIG_ROOT_PASS) | sudo chpasswd -c SHA256 -R $(realpath $(DEBOOT))
 	$(call tag,customise.$(CONFIG_DEBIAN_ARCH))
 
