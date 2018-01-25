@@ -1,9 +1,17 @@
 [General]
-bootstrap=Stretch
-aptsources=Stretch
+bootstrap=Stretch Local
+aptsources=Stretch Local
 configscript=multistrap.configscript
 
+noauth=true
 cleanup=true
+
+[Local]
+source=http://localhost debian/
+omitdebsrc=true
+
+# mesh router
+packages= yggdrasil-go
 
 [Stretch]
 source=http://httpredir.debian.org/debian
