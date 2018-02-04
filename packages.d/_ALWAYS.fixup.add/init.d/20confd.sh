@@ -11,12 +11,18 @@ try_partition() {
     # Mount partition as read-only
     mount /dev/$1 /mnt -o ro
 
-    # Find conf.d in root of partition and extract in alphabetical order each
-    # tar.gz archive into the ramdisk /etc, overwriting any existing file
+    # Find conf.d in root of partition and process in alphabetical order
     if [ -d "/mnt/$CONFDIR" ]; then
-        for conf in /mnt/$CONFDIR/*.tar.gz; do
-            echo Applying configurations from /dev/$1: $conf
-            tar --warning=no-timestamp --extract -f $conf -C /etc
+        for conf in `ls /mnt/$CONFDIR/*.sh /mnt/$CONFDIR/*.tar.gz`; do
+            if [[ $conf =~ .*.sh ]]; then
+                # Execute each sh script in a new /bin/bash process
+                echo Executing configurations from /dev/$1: $conf
+                /bin/bash $conf
+            elif [[ $conf =~ .*.tar.gz ]]; then
+                # Extract each tar.gz archive into /etc overwriting existing files
+                echo Applying configurations from /dev/$1: $conf
+                tar --warning=no-timestamp --extract -f $conf -C /etc
+	    fi
         done
     fi
 

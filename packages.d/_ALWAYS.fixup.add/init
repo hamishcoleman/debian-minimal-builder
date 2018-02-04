@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # This script gets run by linux when starting an initrd
 #
