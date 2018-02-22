@@ -6,8 +6,13 @@ install:
 
 # See the Ubuntu section in the README file for more details, but this is a
 # good example of why CI is useful /before/ shipping a product..
+#
+# Also, the age of the debian-archive-keyring (2012) is simply concerning. So,
+# I have to manually add the debian stable release keys
 before_script:
     - sudo sed -i '989s/$forceyes//' /usr/sbin/multistrap
+    - apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 7638D0442B90D010
+    - apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EF0F382A1A7B6500
 
 script:
     - make test
