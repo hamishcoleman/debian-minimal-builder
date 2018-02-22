@@ -1,5 +1,9 @@
 sudo: enabled
 
+language: c
+# Its a lie, but it seems to be a language with less things autoinstalled at
+# the start of the build
+
 install:
     - make build-depends
     - sudo apt-get install debian-archive-keyring
