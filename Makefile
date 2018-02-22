@@ -24,6 +24,7 @@ BUILD_DEPENDS = \
     multistrap \
     binfmt-support \
     qemu-user-static \
+    expect \
 
 # A default target to tell you what other targets might work
 all:
@@ -32,13 +33,18 @@ all:
 	$(info or other variations for i386)
 
 # Build and boot a test environment
+.PHONY: test_run
+test_run:
+	$(MAKE) -C test
+
+# Run a test script against the booted test environment
 .PHONY: test
 test:
-	$(MAKE) -C test
+	./test.expect $(CONFIG_ROOT_PASS)
 
 # install any packages needed for this builder
 build-depends: $(TAG)/build-depends
-$(TAG)/build-depends:
+$(TAG)/build-depends: Makefile
 	sudo apt-get -y install $(BUILD_DEPENDS)
 	$(call tag,build-depends)
 
