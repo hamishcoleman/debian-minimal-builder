@@ -24,6 +24,7 @@ BUILD_DEPENDS = \
     multistrap \
     binfmt-support \
     qemu-user-static \
+    qemu-system-x86 \
     expect \
 
 # A default target to tell you what other targets might work
