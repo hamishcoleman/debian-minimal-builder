@@ -116,10 +116,30 @@ the Debian keyring package and allow the verification:
 
     sudo apt-get install debian-archive-keyring
 
-Note:  Ubuntu 14.04 is shipping a broken version of multistrap (version
-2.2.0), and will fail with compile errors.  The fix for this appears to
-be to edit the line in /usr/sbin/multistrap that has error (line 989 in
-v2.2.0) and remove any occurance to "$forceyes".
+Note:  Ubuntu 14.04 is shipping a broken version of multistrap, which
+will fail with an error message like:
+
+    Global symbol "$forceyes" requires explicit package name at /usr/sbin/multistrap line 989."
+
+The error is present in version 2.2.0ubuntu1 and fixed in 2.2.0ubuntu2.
+A workaround for this is to manually edit the line:
+
+    sudo sed -i '989s/$forceyes//' /usr/sbin/multistrap
+
+Applying the following patch will also fix the problem:
+
+--- 1/usr/sbin/multistrap	2014-02-22 15:27:42.000000000 +0800
++++ 2/usr/sbin/multistrap	2014-05-13 13:32:36.000000000 +0800
+@@ -986,7 +986,7 @@
+ 	}
+ 	# reinstall set
+ 	foreach my $reinst (sort @reinstall) {
+-		system ("$str $env chroot $dir apt-get --reinstall -y $forceyes install $reinst");
++		system ("$str $env chroot $dir apt-get --reinstall -y install $reinst");
+ 	}
+ 	&run_native_hooks_end(sort @{$hooks{'N'}}) if (defined $hooks{'N'});
+ 	return $retval;
+
 
 TODO
 ----
