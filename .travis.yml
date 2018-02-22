@@ -3,5 +3,10 @@ sudo: enabled
 install:
     - make build-depends
 
+# See the Ubuntu section in the README file for more details, but this is a
+# good example of why CI is useful /before/ shipping a product..
+before_script:
+    - sudo sed -i '989s/$forceyes//' /usr/sbin/multistrap
+
 script:
     - make test
