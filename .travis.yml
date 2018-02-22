@@ -19,4 +19,4 @@ before_script:
     - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EF0F382A1A7B6500
 
 script:
-    - make test
+    - make test CONFIG_DISABLE_KVM=yes

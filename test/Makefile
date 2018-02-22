@@ -10,6 +10,14 @@ CONFIG_DEBIAN_VER = stretch
 CONFIG_DEBIAN_ARCH = i386
 export CONFIG_DEBIAN_ARCH
 
+# added just for travisCI
+CONFIG_DISABLE_KVM ?= no
+ifeq ($(CONFIG_DISABLE_KVM),yes)
+    QEMU_KVM=
+else
+    QEMU_KVM=-enable-kvm
+endif
+
 DEBIAN_KERNEL_URL = http://httpredir.debian.org/debian/dists/$(CONFIG_DEBIAN_VER)/main/installer-$(CONFIG_DEBIAN_ARCH)/current/images/netboot/debian-installer/$(CONFIG_DEBIAN_ARCH)/linux
 DEBIAN_INITRD_URL = http://httpredir.debian.org/debian/dists/$(CONFIG_DEBIAN_VER)/main/installer-$(CONFIG_DEBIAN_ARCH)/current/images/netboot/debian-installer/$(CONFIG_DEBIAN_ARCH)/initrd.gz
 
@@ -47,7 +55,7 @@ persistant.storage:
 	truncate -s 2G $@
 
 test: $(DEBIAN_KERNEL) combined.initrd persistant.storage
-	qemu-system-x86_64 -enable-kvm -append console=ttyS0 \
+	qemu-system-x86_64 $(QEMU_KVM) -append console=ttyS0 \
 	    -m 1024 \
 	    -kernel $(DEBIAN_KERNEL) \
 	    -initrd combined.initrd \
