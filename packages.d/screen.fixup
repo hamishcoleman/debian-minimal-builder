@@ -1,0 +1,7 @@
+#
+# TODO
+# - fix the perms..
+#
+# Directory '/run/screen' must have mode 777.
+# after boot "drwxrwxr-x"
+#
