@@ -7,3 +7,6 @@ ARCH="$2"
 # Always fixup the image by removing these config files
 rm -f ${DEBOOT}/etc/machine-id
 rm -f ${DEBOOT}/lib/systemd/system/getty-static.service
+
+# Prevent apt warning messages by removing this
+rm -f ${DEBOOT}/var/lib/apt/lists/auxfiles
