@@ -6,10 +6,10 @@ CONFDIR=conf.d
 
 try_partition() {
     # Create file system node from partition
-    mknod /dev/$1 b $2 $3 2>/dev/null
+    mknod "/dev/$1" b "$2" "$3" 2>/dev/null
 
     # Mount partition as read-only
-    mount /dev/$1 /mnt -o ro
+    mount "/dev/$1" /mnt -o ro
     S=$?
 
     if [ $S -ne 0 ]; then
@@ -21,8 +21,8 @@ try_partition() {
     if [ -d "/mnt/$CONFDIR" ]; then
         # Extract each tar.gz archive into /etc overwriting existing files
         for conf in /mnt/$CONFDIR/*.tar.gz; do
-            echo Applying configurations from /dev/$1: $conf
-            tar --warning=no-timestamp --extract -f $conf -C /etc
+            echo "Applying configurations from /dev/$1: $conf"
+            tar --warning=no-timestamp --extract -f "$conf" -C /etc
             S=$?
 
             if [ $S -ne 0 ]; then
@@ -34,8 +34,8 @@ try_partition() {
         # Execute each sh script
         for script in /mnt/$CONFDIR/*.sh; do
             if [ -x "$script" ]; then
-                echo Executing configurations from /dev/$1: $script
-                . $script
+                echo "Executing configurations from /dev/$1: $script"
+                . "$script"
                 S=$?
 
                 if [ $S -ne 0 ]; then
@@ -61,12 +61,12 @@ try_partition() {
 # Mount proc
 mount -t proc proc /proc
 
-cat /proc/partitions | while read major minor size name; do
+cat /proc/partitions | while read -r major minor size name; do
     # Check each partition matching sd*[0-9] (e.g. sda1) or mmcblk*p* (e.g. mmcblk0p1)
     case $name in
         vd*[0-9]|sd*[0-9]|mmcblk*p*)
-            echo Checking for configuration files on $name
-            try_partition $name $major $minor
+            echo "Checking for configuration files on $name"
+            try_partition "$name" "$major" "$minor"
             S=$?
 
             if [ $S -ne 0 ]; then
