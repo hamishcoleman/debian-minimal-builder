@@ -61,10 +61,12 @@ try_partition() {
 # Mount proc
 mount -t proc proc /proc
 
+found_any=0
 cat /proc/partitions | while read -r major minor size name; do
     # Check each partition matching sd*[0-9] (e.g. sda1) or mmcblk*p* (e.g. mmcblk0p1)
     case $name in
         vd*[0-9]|sd*[0-9]|mmcblk*p*)
+            found_any=1
             echo "Checking for configuration files on $name"
             try_partition "$name" "$major" "$minor"
             S=$?
@@ -75,3 +77,7 @@ cat /proc/partitions | while read -r major minor size name; do
             ;;
     esac
 done
+
+if [ "$found_any" == "0" ]; then
+    echo Error: No partitions were found, are the right modules loaded?
+fi
