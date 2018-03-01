@@ -32,14 +32,16 @@ try_partition() {
         done
 
         # Execute each sh script
-        for conf in /mnt/$CONFDIR/*.sh; do
-            echo Executing configurations from /dev/$1: $conf
-            . $conf
-            S=$?
+        for script in /mnt/$CONFDIR/*.sh; do
+            if [ -x "$script" ]; then
+                echo Executing configurations from /dev/$1: $script
+                . $script
+                S=$?
 
-            if [ $S -ne 0 ]; then
-                echo "Error: execute $conf from /dev/$1 failed"
-                return $S
+                if [ $S -ne 0 ]; then
+                    echo "Error: execute $script from /dev/$1 failed"
+                    return $S
+                fi
             fi
         done
     fi
