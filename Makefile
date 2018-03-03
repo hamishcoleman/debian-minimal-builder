@@ -41,7 +41,7 @@ test_run:
 
 # Run a test script against the booted test environment
 .PHONY: test
-test:
+test: shellcheck
 	$(MAKE) -C test prepare
 	./test.expect $(CONFIG_ROOT_PASS)
 
