@@ -100,7 +100,7 @@ $(TAG)/multistrap.$(CONFIG_DEBIAN_ARCH): $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_A
 	$(call tag,multistrap.$(CONFIG_DEBIAN_ARCH))
 
 # TODO
-# - the make targets using the ./packages.runscripts system should
+# - the make targets using the ./scripts/packages.runscripts system should
 #   be depending on all the packages.d/ scripts.  Need to add a auto
 #   dep system to do this.
 
@@ -113,23 +113,23 @@ $(TAG)/multistrap.$(CONFIG_DEBIAN_ARCH): $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_A
 
 # minimise the image size
 $(TAG)/minimise.$(CONFIG_DEBIAN_ARCH): $(TAG)/multistrap.$(CONFIG_DEBIAN_ARCH)
-	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./packages.addextra $(DEBOOT) $(CONFIG_DEBIAN_ARCH) minimise
-	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./packages.runscripts $(DEBOOT) $(CONFIG_DEBIAN_ARCH) minimise
+	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./scripts/packages.addextra $(DEBOOT) $(CONFIG_DEBIAN_ARCH) minimise
+	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./scripts/packages.runscripts $(DEBOOT) $(CONFIG_DEBIAN_ARCH) minimise
 	sudo rm -f $(DEBOOT)/multistrap.configscript $(DEBOOT)/dev/mmcblk0
 	#sudo rm -f $(DEBOOT)/usr/bin/qemu-arm-static
 	$(call tag,minimise.$(CONFIG_DEBIAN_ARCH))
 
 # fixup the image to actually boot
 $(TAG)/fixup.$(CONFIG_DEBIAN_ARCH): $(TAG)/multistrap.$(CONFIG_DEBIAN_ARCH)
-	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./packages.addextra $(DEBOOT) $(CONFIG_DEBIAN_ARCH) fixup
-	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./packages.runscripts $(DEBOOT) $(CONFIG_DEBIAN_ARCH) fixup
+	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./scripts/packages.addextra $(DEBOOT) $(CONFIG_DEBIAN_ARCH) fixup
+	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./scripts/packages.runscripts $(DEBOOT) $(CONFIG_DEBIAN_ARCH) fixup
 	sudo rm -f $(DEBOOT)/usr/sbin/policy-rc.d
 	$(call tag,fixup.$(CONFIG_DEBIAN_ARCH))
 
 # image customisation - setting the default config.
 $(TAG)/customise.$(CONFIG_DEBIAN_ARCH): $(TAG)/multistrap.$(CONFIG_DEBIAN_ARCH)
-	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./packages.addextra $(DEBOOT) $(CONFIG_DEBIAN_ARCH) customise
-	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./packages.runscripts $(DEBOOT) $(CONFIG_DEBIAN_ARCH) customise
+	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./scripts/packages.addextra $(DEBOOT) $(CONFIG_DEBIAN_ARCH) customise
+	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./scripts/packages.runscripts $(DEBOOT) $(CONFIG_DEBIAN_ARCH) customise
 	echo root:$(CONFIG_ROOT_PASS) | sudo chpasswd -c SHA256 -R $(realpath $(DEBOOT))
 	$(call tag,customise.$(CONFIG_DEBIAN_ARCH))
 
