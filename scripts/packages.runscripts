@@ -31,12 +31,13 @@ done
 unset try
 
 # Default to just looking in the current dir
-: ${PACKAGEDIRS=packages.d}
+: "${PACKAGEDIRS=packages.d}"
 
 if [ -n "$VERBOSE" ]; then
     echo "Info: Using search path of: $PACKAGEDIRS"
 fi
 
+# shellcheck disable=SC2016
 PACKAGES=$(dpkg-query --admindir="${DEBOOT}/var/lib/dpkg" --show --showformat='${Package}\n')
 
 # Add an always present virtual package

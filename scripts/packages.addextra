@@ -12,7 +12,7 @@ if [ $# -lt 3 ]; then
 fi
 
 DEBOOT="$1"
-ARCH="$2"
+#ARCH="$2"
 STAGE="$3"
 
 if [ "$4" = "verbose" ]; then
@@ -32,7 +32,7 @@ done
 unset try
 
 # Default to just looking in the current dir
-: ${PACKAGEDIRS=packages.d}
+: "${PACKAGEDIRS=packages.d}"
 
 if [ -n "$VERBOSE" ]; then
     echo "Info: Using search path of: $PACKAGEDIRS"

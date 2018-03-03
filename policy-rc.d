@@ -1,3 +1,4 @@
+#!/bin/sh
 
 # /usr/sbin/policy-rc.d [options] <initscript ID> <actions> [<runlevel>]
 # /usr/sbin/policy-rc.d [options] --list <initscript ID> [<runlevel> ...]

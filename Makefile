@@ -26,6 +26,7 @@ BUILD_DEPENDS = \
     qemu-user-static \
     qemu-system-x86 \
     expect \
+    shellcheck \
 
 # A default target to tell you what other targets might work
 all:
@@ -43,6 +44,16 @@ test_run:
 test:
 	$(MAKE) -C test prepare
 	./test.expect $(CONFIG_ROOT_PASS)
+
+# A list of all the shell scripts that need linting
+# First, the scripts we run during the build
+SHELLSCRIPTS := scripts/packages.addextra scripts/packages.runscripts
+# then the scripts that are copied into the build
+SHELLSCRIPTS += multistrap.configscript policy-rc.d
+
+# Run a shell script linter
+shellcheck:
+	shellcheck $(SHELLSCRIPTS)
 
 # install any packages needed for this builder
 build-depends: $(TAG)/build-depends
@@ -110,7 +121,13 @@ $(TAG)/multistrap.$(CONFIG_DEBIAN_ARCH): $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_A
 # --path-exclude=/usr/share/doc/*
 # --path-include=/usr/share/doc/*/copyright
 
-
+# script deps
+$(TAG)/minimise.$(CONFIG_DEBIAN_ARCH): ./scripts/packages.addextra
+$(TAG)/minimise.$(CONFIG_DEBIAN_ARCH): ./scripts/packages.runscripts
+$(TAG)/fixup.$(CONFIG_DEBIAN_ARCH): ./scripts/packages.addextra
+$(TAG)/fixup.$(CONFIG_DEBIAN_ARCH): ./scripts/packages.runscripts
+$(TAG)/customise.$(CONFIG_DEBIAN_ARCH): ./scripts/packages.addextra
+$(TAG)/customise.$(CONFIG_DEBIAN_ARCH): ./scripts/packages.runscripts
 
 # minimise the image size
 $(TAG)/minimise.$(CONFIG_DEBIAN_ARCH): $(TAG)/multistrap.$(CONFIG_DEBIAN_ARCH)
