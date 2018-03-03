@@ -5,6 +5,8 @@
 CONFDIR=conf.d
 
 try_partition() {
+    echo "Checking for configuration files on $name"
+
     # Create file system node from partition
     mknod "/dev/$1" b "$2" "$3" 2>/dev/null
 
@@ -21,6 +23,10 @@ try_partition() {
     if [ -d "/mnt/$CONFDIR" ]; then
         # Extract each tar.gz archive into /etc overwriting existing files
         for conf in /mnt/$CONFDIR/*.tar.gz; do
+            if [ ! -r $conf ]; then
+                continue
+            fi
+
             echo "Applying configurations from /dev/$1: $conf"
             tar --warning=no-timestamp --extract -f "$conf" -C /etc
             S=$?
@@ -67,7 +73,6 @@ cat /proc/partitions | while read -r major minor size name; do
     case $name in
         vd*[0-9]|sd*[0-9]|mmcblk*p*)
             found_any=1
-            echo "Checking for configuration files on $name"
             try_partition "$name" "$major" "$minor"
             S=$?
 
