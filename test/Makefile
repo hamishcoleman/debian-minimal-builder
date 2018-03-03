@@ -44,7 +44,9 @@ $(DEBIAN_MODULES): $(DEBIAN_INITRD)
 	) <$< >$@
 CLEAN_FILES += $(DEBIAN_MODULES) $(basename $(DEBIAN_MODULES))
 
-../build/debian.stretch.i386.cpio:
+.FORCE:
+
+../build/debian.stretch.i386.cpio: .FORCE
 	$(MAKE) -C .. build/debian.stretch.i386.cpio
 
 combined.initrd: $(DEBIAN_MODULES) ../build/debian.stretch.i386.cpio

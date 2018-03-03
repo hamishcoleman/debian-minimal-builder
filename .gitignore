@@ -1,3 +1,6 @@
 
+# the generated dependancy file
+.configdir.deps
+
 # the output artifacts
 build

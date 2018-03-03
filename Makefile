@@ -175,13 +175,20 @@ $(BUILD)/debian.$(CONFIG_DEBIAN).$(CONFIG_DEBIAN_ARCH).cpio: $(TAG)/debian.$(CON
             sudo find . -print0 | sudo cpio -0 -H newc -R 0:0 -o \
 	) > $@
 
+# Create a dependancy file for a given configdir
+%configdir.deps:
+	scripts/configdir_deps $@
+
+CONFIGDIR_DEPS := $(addsuffix /.configdir.deps, $(CONFIGDIRS))
+include $(CONFIGDIR_DEPS)
+
 # Misc make infrastructure below here
 
 %.lzma: %.cpio
 	lzma <$< >$@
 
 clean:
-	rm -f $(MULTISTRAP_CONF) $(TAG)/*
+	rm -f $(MULTISTRAP_CONF) $(TAG)/* $(CONFIGDIR_DEPS)
 	sudo rm -rf $(BUILD)/debian.$(CONFIG_DEBIAN).*
 
 reallyclean:

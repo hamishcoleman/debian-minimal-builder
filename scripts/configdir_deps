@@ -1,0 +1,64 @@
+#!/bin/bash
+#
+# Given the name of a directory that contains files for a CONFIGDIRS, output
+# a list of the dependancies
+#
+
+OUTPUTFILE="$1"
+DIR="$(dirname "$OUTPUTFILE")"
+
+exec >"$OUTPUTFILE"
+
+deps_scripts() {
+    local dir="$1"
+    local phase="$2"
+    local target
+
+    # shellcheck disable=SC2016
+    target='$(TAG)/'
+    target+="$phase"    
+    # shellcheck disable=SC2016
+    target+='.$(CONFIG_DEBIAN_ARCH)'
+
+    echo "# Deps for scripts in the $phase phase"
+    for i in $dir/packages.d/*.$phase; do
+        if [ -e "$i" ]; then
+            echo "$target: $i"
+        fi
+    done
+    echo
+}
+
+# TODO
+# - output deps for the *.files files
+# deps_files() {
+
+deps_addextra() {
+    local dir="$1"
+    local phase="$2"
+    local target
+
+    # shellcheck disable=SC2016
+    target='$(TAG)/'
+    target+="$phase"    
+    # shellcheck disable=SC2016
+    target+='.$(CONFIG_DEBIAN_ARCH)'
+
+    echo "# Deps for added extra files in the $phase phase"
+    for dir in $dir/packages.d/*.${phase}.add; do
+        if [ -d "$dir" ]; then
+            find "$dir" -type f | while read -r i; do
+                echo "$target: $i"
+            done
+        fi
+    done
+    echo
+}
+
+deps_scripts "$DIR" minimise
+deps_scripts "$DIR" fixup
+deps_scripts "$DIR" customise
+
+deps_addextra "$DIR" minimise
+deps_addextra "$DIR" fixup
+deps_addextra "$DIR" customise
