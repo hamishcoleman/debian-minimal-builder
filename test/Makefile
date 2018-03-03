@@ -54,7 +54,11 @@ CLEAN_FILES += combined.initrd
 persistant.storage:
 	truncate -s 2G $@
 
-test: $(DEBIAN_KERNEL) combined.initrd persistant.storage
+# Get the files ready for running a test
+prepare: $(DEBIAN_KERNEL) combined.initrd persistant.storage
+.PHONY: prepare
+
+test: prepare
 	qemu-system-x86_64 $(QEMU_KVM) -append console=ttyS0 \
 	    -m 1024 \
 	    -kernel $(DEBIAN_KERNEL) \

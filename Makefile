@@ -41,6 +41,7 @@ test_run:
 # Run a test script against the booted test environment
 .PHONY: test
 test:
+	$(MAKE) -C test prepare
 	./test.expect $(CONFIG_ROOT_PASS)
 
 # install any packages needed for this builder
