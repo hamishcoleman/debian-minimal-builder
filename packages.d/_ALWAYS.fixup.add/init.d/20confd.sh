@@ -74,7 +74,7 @@ if [ ! -f /proc/partitions ]; then
 fi
 
 found_any=0
-while read -r major minor size name </proc/partitions; do
+while read -r major minor size name; do
     # Check each partition matching sd*[0-9] (e.g. sda1) or mmcblk*p* (e.g. mmcblk0p1)
     case $name in
         vd*[0-9]|sd*[0-9]|mmcblk*p*)
@@ -89,7 +89,7 @@ while read -r major minor size name </proc/partitions; do
     esac
 
     echo "$size" >/dev/null # make size look used to shellcheck
-done
+done </proc/partitions
 
 if [ "$found_any" = "0" ]; then
     echo Error: No partitions were found, are the right modules loaded?
