@@ -65,7 +65,9 @@ try_partition() {
 }
 
 # Mount proc
-mount -t proc proc /proc
+if [ ! -f /proc/partitions ]; then
+    mount -t proc proc /proc
+fi
 
 found_any=0
 cat /proc/partitions | while read -r major minor size name; do
