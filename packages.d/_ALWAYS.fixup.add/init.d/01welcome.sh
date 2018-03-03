@@ -1,3 +1,6 @@
+#!/bin/sh
+# Not normally run as a shell script - sourced by the /init script
+#
 # Say hello
 
 echo

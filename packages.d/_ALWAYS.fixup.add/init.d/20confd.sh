@@ -1,3 +1,6 @@
+#!/bin/sh
+# Not normally run as a shell script - sourced by the /init script
+#
 # Apply configurations from conf.d
 #
 # Copyright (C) 2018 Benedict Lau <benedict.lau@groundupworks.com>
@@ -23,7 +26,7 @@ try_partition() {
     if [ -d "/mnt/$CONFDIR" ]; then
         # Extract each tar.gz archive into /etc overwriting existing files
         for conf in /mnt/$CONFDIR/*.tar.gz; do
-            if [ ! -r $conf ]; then
+            if [ ! -r "$conf" ]; then
                 continue
             fi
 
@@ -41,6 +44,7 @@ try_partition() {
         for script in /mnt/$CONFDIR/*.sh; do
             if [ -x "$script" ]; then
                 echo "Executing configurations from /dev/$1: $script"
+                # shellcheck disable=SC1090
                 . "$script"
                 S=$?
 
@@ -70,7 +74,7 @@ if [ ! -f /proc/partitions ]; then
 fi
 
 found_any=0
-cat /proc/partitions | while read -r major minor size name; do
+while read -r major minor size name </proc/partitions; do
     # Check each partition matching sd*[0-9] (e.g. sda1) or mmcblk*p* (e.g. mmcblk0p1)
     case $name in
         vd*[0-9]|sd*[0-9]|mmcblk*p*)
@@ -83,8 +87,10 @@ cat /proc/partitions | while read -r major minor size name; do
             fi
             ;;
     esac
+
+    echo "$size" >/dev/null # make size look used to shellcheck
 done
 
-if [ "$found_any" == "0" ]; then
+if [ "$found_any" = "0" ]; then
     echo Error: No partitions were found, are the right modules loaded?
 fi

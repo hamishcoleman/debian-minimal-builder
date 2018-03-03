@@ -2,12 +2,12 @@
 # Copyright (C) 2018 Hamish Coleman <hamish@zot.org>
 
 DEBOOT="$1"
-ARCH="$2"
+#ARCH="$2"
 
 # Always minimise the image by removing these large chunks of files
-rm -rf ${DEBOOT}/usr/share/locale/*
+rm -rf "${DEBOOT}/usr/share/locale/*"
 
 # TODO - These two lines could be done in package specific remove scripts
-rm -rf ${DEBOOT}/usr/share/zoneinfo/*   # tzdata
-rm -f ${DEBOOT}/lib/udev/hwdb.bin       # udev
+rm -rf "${DEBOOT}/usr/share/zoneinfo/*"   # tzdata
+rm -f "${DEBOOT}/lib/udev/hwdb.bin"       # udev
 

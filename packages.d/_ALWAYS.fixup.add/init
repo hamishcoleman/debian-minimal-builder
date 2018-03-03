@@ -7,7 +7,8 @@
 for i in /init.d/*.sh; do
     if [ -x "$i" ]; then
         echo "/init: starting $i"
-        . $i
+        # shellcheck disable=SC1090
+        . "$i"
     fi
 done
 

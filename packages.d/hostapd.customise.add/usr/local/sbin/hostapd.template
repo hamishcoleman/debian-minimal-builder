@@ -25,7 +25,7 @@ fi
 
 DIR=/etc/hostapd
 
-cd "$DIR"
+cd "$DIR" || exit
 
 if [ -e "$CONF" ]; then
     # nothing needs doing
@@ -33,15 +33,15 @@ if [ -e "$CONF" ]; then
 fi
 
 if [ ! -e "$TEMPLATE" ]; then
-    echo error - need a $TEMPLATE
+    echo "error - need a $TEMPLATE"
     exit 1
 fi
 
-sed -e "s/__INTERFACE__/$INT/g" <$TEMPLATE >$CONF
+sed -e "s/__INTERFACE__/$INT/g" <"$TEMPLATE" >"$CONF"
 
 if [ -e "$LINK" ]; then
     # if we know the name of the *.link file, append any extra
     # config items from there
-    confget -f $LINK -s hostapd -l >>$CONF
+    confget -f "$LINK" -s hostapd -l >>"$CONF"
 fi
 

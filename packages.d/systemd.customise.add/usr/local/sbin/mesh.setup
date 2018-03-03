@@ -15,32 +15,35 @@ fi
 
 if [ -e "$LINK" ]; then
     # if we know the name of the *.link file, load config from it
-    eval $(confget -f $LINK -s mesh -l -S -p conf_)
+    eval "$(confget -f "$LINK" -s mesh -l -S -p conf_)"
 fi
 
 # check that we have the required config
+# shellcheck disable=SC2154
 [ -n "$conf_ssid" ] || exit 1
+# shellcheck disable=SC2154
 [ -n "$conf_freq" ] || exit 1
 
+# shellcheck disable=SC2154
 if [ -n "$conf_country_code" ]; then
     # if one is configured, just set it - dont check if it is already set
     # or make any other assumptions
-    iw reg set $conf_country_code
+    iw reg set "$conf_country_code"
 fi
 
-ip link set $INT down
-iw dev $INT set type mp
-ip link set $INT down
+ip link set "$INT" down
+iw dev "$INT" set type mp
+ip link set "$INT" down
 
-iw dev $INT set freq $conf_freq
-ip link set $INT up
+iw dev "$INT" set freq "$conf_freq"
+ip link set "$INT" up
 
-iw dev $INT mesh join $conf_ssid
+iw dev "$INT" mesh join "$conf_ssid"
 
 # I noted that it occasionally did not join
 # - perhaps some earlier command was processing asynchronously?
 sleep 2
-iw dev $INT mesh join $conf_ssid
+iw dev "$INT" mesh join "$conf_ssid"
 
 # TODO
 # - HT20 style options

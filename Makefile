@@ -50,6 +50,18 @@ test:
 SHELLSCRIPTS := scripts/packages.addextra scripts/packages.runscripts
 # then the scripts that are copied into the build
 SHELLSCRIPTS += multistrap.configscript policy-rc.d
+# Add the custom phase scripts
+SHELLSCRIPTS += packages.d/*.minimise packages.d/*.fixup #packages.d/*.customise
+
+# Add the pre-systemd init system (runs inside the image)
+SHELLSCRIPTS += packages.d/_ALWAYS.fixup.add/init \
+    packages.d/_ALWAYS.fixup.add/init.d/*
+
+# Add scripts that run inside the image
+SHELLSCRIPTS += packages.d/_ALWAYS.fixup.add/usr/local/sbin/config_save \
+    packages.d/hostapd.customise.add/usr/local/sbin/hostapd.template \
+    packages.d/systemd.customise.add/usr/local/sbin/mesh.setup \
+    packages.d/systemd.customise.add/usr/local/sbin/udc.setup
 
 # Run a shell script linter
 shellcheck:
