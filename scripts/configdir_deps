@@ -16,7 +16,7 @@ deps_scripts() {
 
     # shellcheck disable=SC2016
     target='$(TAG)/'
-    target+="$phase"    
+    target+="$phase"
     # shellcheck disable=SC2016
     target+='.$(CONFIG_DEBIAN_ARCH)'
 
@@ -40,7 +40,7 @@ deps_addextra() {
 
     # shellcheck disable=SC2016
     target='$(TAG)/'
-    target+="$phase"    
+    target+="$phase"
     # shellcheck disable=SC2016
     target+='.$(CONFIG_DEBIAN_ARCH)'
 
@@ -55,6 +55,26 @@ deps_addextra() {
     echo
 }
 
+deps_authorized_keys() {
+    local dir="$1"
+    local phase="$2"
+    local target
+
+    # shellcheck disable=SC2016
+    target='$(TAG)/'
+    target+="$phase"
+    # shellcheck disable=SC2016
+    target+='.$(CONFIG_DEBIAN_ARCH)'
+
+    echo "# Deps for any ssh keys found"
+    for file in $dir/authorized_keys/*.pub; do
+        if [ -r "$file" ]; then
+            echo "$target: $file"
+        fi
+    done
+    echo
+}
+
 deps_scripts "$DIR" minimise
 deps_scripts "$DIR" fixup
 deps_scripts "$DIR" customise
@@ -62,3 +82,5 @@ deps_scripts "$DIR" customise
 deps_addextra "$DIR" minimise
 deps_addextra "$DIR" fixup
 deps_addextra "$DIR" customise
+
+deps_authorized_keys "$DIR" customise

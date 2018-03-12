@@ -51,6 +51,16 @@ variable correctly.
 
 Files that will be taken from the CONFIGDIRS:
 
+authorised_keys
+    This is a directory containing ssh public key files.  All files found will
+    be copied into the built image (in the ~root/authorised_keys directory)
+    before the customise phase scripts are run (Any files with duplicate names
+    will only contain the last file found on the CONFIGDIRS path).
+    Note that the public keys from the ssh_agent of the user creating the build
+    will be automatically added as well.
+    This directory can then be used by a customise phase script to create
+    a real authorized keys file, or serve as a reference while using the built
+    ramdisk system.
 debian.$(CONFIG_DEBIAN).multistrap
     This is the main multistrap config file.  If more than one of these files
     exists in the CONFIGDIRS then only the last defined one will be used.

@@ -1,0 +1,29 @@
+#!/bin/bash
+#
+# Export any ssh public keys found in the current user's ssh_agent into a
+# file within the build environment
+#
+# Copyright (C) 2018 Hamish Coleman <hamish@zot.org>
+
+DEBOOT="$1"
+#ARCH="$2"
+
+DESTDIR="$DEBOOT/root/authorized_keys"
+mkdir -p "$DESTDIR"
+
+if [ "$USER" = "root" ]; then
+    # Since we are most probably running with sudo, so as to have full perms
+    # access to the build dir, check if we can find a better username
+    if [ -n "$SUDO_USER" ]; then
+        USER="$SUDO_USER"
+    fi
+fi
+
+tmp=$(mktemp)
+
+if ssh-add -L >"$tmp"; then
+    # If we successfully contacted the agent and found some keys, store them
+    cp "$tmp" "$DESTDIR/$USER.pub"
+fi
+
+rm -f "$tmp"

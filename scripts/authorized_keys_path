@@ -1,0 +1,49 @@
+#!/bin/bash
+#
+# Search the CONFIGDIRS path for any authorized_keys/*.pub files and add any
+# found to the build environment.
+# Deliberately overwrite any existing files.
+#
+# Copyright (C) 2018 Hamish Coleman <hamish@zot.org>
+
+if [ $# -lt 3 ]; then
+    echo "Usage: $0 DEBOOT ARCH STAGE"
+    exit 1
+fi
+
+DEBOOT="$1"
+#ARCH="$2"
+#STAGE="$3"
+
+if [ "$4" = "verbose" ]; then
+    VERBOSE=1
+else
+    unset VERBOSE
+fi
+
+DESTDIR="$DEBOOT/root/authorized_keys"
+mkdir -p "$DESTDIR"
+
+# If a configs search path has been specified, construct a package.d
+# path list from it
+for dir in $CONFIGDIRS; do
+    try="$dir/authorized_keys"
+    if [ -d "$try" ]; then
+        KEYDIRS+=" $try"
+    fi
+done
+unset try
+
+# Default to just looking in the current dir
+: "${KEYDIRS=authorized_keys}"
+
+if [ -n "$VERBOSE" ]; then
+    echo "Info: Using search path of: $KEYDIRS"
+fi
+
+echo "Adding ssh public key files"
+for dir in $KEYDIRS; do
+    if [ -d "$dir" ]; then
+        cp "$dir"/*.pub "$DESTDIR"
+    fi
+done

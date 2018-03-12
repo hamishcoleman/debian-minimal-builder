@@ -48,6 +48,8 @@ test: shellcheck
 # A list of all the shell scripts that need linting
 # First, the scripts we run during the build
 SHELLSCRIPTS := scripts/packages.addextra scripts/packages.runscripts
+SHELLSCRIPTS += scripts/configdir_deps
+SHELLSCRIPTS += scripts/authorized_keys_local scripts/authorized_keys_path
 # then the scripts that are copied into the build
 SHELLSCRIPTS += multistrap.configscript policy-rc.d
 # Add the custom phase scripts
@@ -140,6 +142,8 @@ $(TAG)/fixup.$(CONFIG_DEBIAN_ARCH): ./scripts/packages.addextra
 $(TAG)/fixup.$(CONFIG_DEBIAN_ARCH): ./scripts/packages.runscripts
 $(TAG)/customise.$(CONFIG_DEBIAN_ARCH): ./scripts/packages.addextra
 $(TAG)/customise.$(CONFIG_DEBIAN_ARCH): ./scripts/packages.runscripts
+$(TAG)/customise.$(CONFIG_DEBIAN_ARCH): scripts/authorized_keys_local
+$(TAG)/customise.$(CONFIG_DEBIAN_ARCH): scripts/authorized_keys_path
 
 # minimise the image size
 $(TAG)/minimise.$(CONFIG_DEBIAN_ARCH): $(TAG)/multistrap.$(CONFIG_DEBIAN_ARCH)
@@ -166,6 +170,10 @@ $(TAG)/customise.$(CONFIG_DEBIAN_ARCH): $(TAG)/multistrap.$(CONFIG_DEBIAN_ARCH)
 	    $(DEBOOT) $(CONFIG_DEBIAN_ARCH) customise
 	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./scripts/packages.runscripts \
 	    $(DEBOOT) $(CONFIG_DEBIAN_ARCH) customise
+	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./scripts/authorized_keys_local \
+	    $(DEBOOT) $(CONFIG_DEBIAN_ARCH) customise
+	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./scripts/authorized_keys_path \
+	    $(DEBOOT) $(CONFIG_DEBIAN_ARCH) customise
 	echo root:$(CONFIG_ROOT_PASS) | sudo chpasswd -c SHA256 -R $(realpath $(DEBOOT))
 	$(call tag,customise.$(CONFIG_DEBIAN_ARCH))
 
@@ -182,7 +190,7 @@ $(BUILD)/debian.$(CONFIG_DEBIAN).$(CONFIG_DEBIAN_ARCH).cpio: $(TAG)/debian.$(CON
 	) > $@
 
 # Create a dependancy file for a given configdir
-%configdir.deps:
+%configdir.deps: Makefile
 	scripts/configdir_deps $@
 
 CONFIGDIR_DEPS := $(addsuffix /.configdir.deps, $(CONFIGDIRS))
