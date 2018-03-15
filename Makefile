@@ -96,7 +96,7 @@ multistrap_conf_src := $(lastword $(wildcard $(addsuffix /$(multistrap_conf_base
 
 MULTISTRAP_CONF=$(BUILD)/$(multistrap_conf_base)
 
-$(MULTISTRAP_CONF): $(multistrap_conf_src) $(package_lists)
+$(MULTISTRAP_CONF): $(multistrap_conf_src) $(packages_lists)
 	cat $< >$@
 	echo >>$@
 	echo packages=$(packages) >>$@
