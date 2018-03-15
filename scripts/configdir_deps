@@ -23,7 +23,7 @@ deps_scripts() {
     echo "# Deps for scripts in the $phase phase"
     for i in $dir/packages.d/*.$phase; do
         # be sure to skip any vim swap files :-(
-        case $(basename $i) in
+        case $(basename "$i") in
             .*.swp) continue;;
         esac
         if [ -e "$i" ]; then
@@ -53,7 +53,7 @@ deps_addextra() {
         if [ -d "$dir" ]; then
             find "$dir" -type f | while read -r i; do
                 # be sure to skip any vim swap files :-(
-                case $(basename $i) in
+                case $(basename "$i") in
                     .*.swp) continue;;
                 esac
                 echo "$target: $i"
@@ -77,7 +77,7 @@ deps_authorized_keys() {
     echo "# Deps for any ssh keys found"
     for file in $dir/authorized_keys/*.pub; do
         # be sure to skip any vim swap files :-(
-        case $(basename $i) in
+        case $(basename "$file") in
             .*.swp) continue;;
         esac
         if [ -r "$file" ]; then
