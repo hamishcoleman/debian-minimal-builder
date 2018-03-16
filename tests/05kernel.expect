@@ -1,0 +1,5 @@
+#
+# Match the expected outputs from the kernel startup
+
+expect "Calibrating delay loop"  {} timeout {bad 1 "Starting kernel"}
+expect "Freeing initrd memory"   {} timeout {bad 1 "Loading initrd"}

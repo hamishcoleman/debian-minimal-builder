@@ -1,0 +1,5 @@
+#
+# Match the expected outputs from starting the userspace and ramdisk
+
+expect "Starting Ramdisk System" {} timeout {bad 1 "Starting /init"}
+expect "Welcome to "             {} timeout {bad 1 "Starting systemd"}

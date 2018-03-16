@@ -1,0 +1,16 @@
+#
+# Login to the booted system and run a quick command
+
+if {$config_pass eq ""} {
+    set config_pass "unknown"
+}
+
+expect login {send root\r}              timeout {bad 1 "login prompt"}
+expect assword {send $config_pass\r}    timeout {bad 1 "password prompt"}
+expect {
+    root@ramdisk        {send "who am i\r"}
+    "Login incorrect"   {bad 1 "Incorrect password"}
+    timeout             {bad 1 "Login success"}
+}
+expect "root     ttyS0"              {} timeout {bad 1 "Try a command"}
+

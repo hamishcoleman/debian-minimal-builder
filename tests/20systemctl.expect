@@ -1,0 +1,13 @@
+#
+# Check that systemd thinks the system has booted with no errors
+
+expect "root@ramdisk"   {send "systemctl status |head -5\r"}
+expect {
+    "State: degraded"   {bad 1 "systemctl state is degraded"}
+    "State: starting"   {}
+    "State: running"    {}
+}
+
+# TODO
+# - if state: starting, wait for the jobs to finish?
+# - perhaps check the "systemctl list-jobs" output?

@@ -43,7 +43,7 @@ test_run:
 .PHONY: test
 test: shellcheck
 	$(MAKE) -C test prepare
-	./test.expect $(CONFIG_ROOT_PASS)
+	./test_harness "make test_run" config_pass=$(CONFIG_ROOT_PASS)
 
 # A list of all the shell scripts that need linting
 # First, the scripts we run during the build

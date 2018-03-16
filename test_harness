@@ -1,0 +1,69 @@
+#!/usr/bin/env expect
+#
+# Use the "expect" tool to test that we actually can boot to userspace
+#
+# Copyright (C) 2018 Hamish Coleman <hamish@zot.org>
+
+# TODO
+# - catch any fatal errors during tests and ensure that qemu_stop has
+#   been run
+
+# Ensure that we see the output
+log_user 1
+# Set the default time to wait for matches
+set timeout 60
+
+# First arg is the command to run
+set test_command [ lindex $argv 0 ]
+if {$test_command eq ""} {
+    puts "Need test_command"
+    exit 1
+}
+
+# all other args are variables to set
+set index 1
+while {$index < $argc} {
+    set kvpair [ split [ lindex $argv $index ] "=" ]
+
+    eval global [ lindex $kvpair 0 ]
+    eval set [ lindex $kvpair 0 ] [ lindex $kvpair 1 ]
+
+    incr index
+}
+
+# check for tests in the tests dir
+# (note, with no tests, this generates an error)
+set tests [lsort [glob "tests/*.expect"]]
+
+# Since we are expecting to run qemu, provide a function to kill it off
+proc qemu_stop {} {
+    global pid
+    send "\x01x"
+    exec kill $pid
+    close
+    wait
+}
+
+# Provide a simple function to stop with error and message
+proc bad { errorcode message } {
+    puts "\n\n"
+    puts "ERROR: $message\n"
+    qemu_stop
+    exit $errorcode
+}
+
+# Start the command under test
+set pid [eval spawn $test_command]
+
+foreach testname $tests {
+    puts "\n\nStarting $testname"
+    set result [source $testname]
+    # TODO - check for unexpected return values and exit early
+}
+
+# We made it to the end of the tests with no fatal errors
+puts "\n\n"
+puts "OK\n"
+
+qemu_stop
+exit 0

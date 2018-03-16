@@ -1,0 +1,8 @@
+This directory contains a makefile with the rules needed to download a
+debian installer kernel and modules and join those modules with a built
+debian minimal root cpio.
+
+That then allows booting the system up with qemu - this is used for both
+automated and manual testing.
+
+The automated test suite is in the "tests" directory, not this one.
