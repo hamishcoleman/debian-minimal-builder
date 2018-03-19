@@ -53,11 +53,11 @@ combined.initrd: $(DEBIAN_MODULES) ../build/debian.stretch.i386.cpio
 	cat $^ >$@
 CLEAN_FILES += combined.initrd
 
-persistant.storage:
+persistent.storage:
 	truncate -s 2G $@
 
 # Get the files ready for running a test
-prepare: $(DEBIAN_KERNEL) combined.initrd persistant.storage
+prepare: $(DEBIAN_KERNEL) combined.initrd persistent.storage
 .PHONY: prepare
 
 test: prepare
@@ -66,7 +66,7 @@ test: prepare
 	    -kernel $(DEBIAN_KERNEL) \
 	    -initrd combined.initrd \
 	    -netdev type=user,id=e0 -device virtio-net-pci,netdev=e0 \
-	    -drive if=virtio,format=raw,file=persistant.storage \
+	    -drive if=virtio,format=raw,file=persistent.storage \
 	    -nographic
 
 clean:

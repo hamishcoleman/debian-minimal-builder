@@ -10,6 +10,6 @@ debian.stretch.i386.modules/
 # The debian buildroot and modules combined
 combined.initrd
 
-# A persistant storage file for testing
-persistant.storage
+# A persistent storage file for testing
+persistent.storage
 
