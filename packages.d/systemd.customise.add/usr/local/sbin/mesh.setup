@@ -35,7 +35,7 @@ ip link set "$INT" down
 iw dev "$INT" set type mp
 ip link set "$INT" down
 
-iw dev "$INT" set freq "$conf_freq"
+iw dev "$INT" set freq "$(echo "$conf_freq" | cut -d' ' -f1)" "$(echo "$conf_freq" | cut -s -d' ' -f2)"
 ip link set "$INT" up
 
 iw dev "$INT" mesh join "$conf_ssid"
