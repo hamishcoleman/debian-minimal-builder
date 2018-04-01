@@ -35,7 +35,10 @@ ip link set "$INT" down
 iw dev "$INT" set type mp
 ip link set "$INT" down
 
-iw dev "$INT" set freq "$conf_freq"
+# freq param takes two values and therefore cannot be passed with quotes
+# TODO - split freq and channel width (along with other conf) each into its own iw cmd
+# shellcheck disable=SC2086
+iw dev "$INT" set freq $conf_freq
 ip link set "$INT" up
 
 iw dev "$INT" mesh join "$conf_ssid"
