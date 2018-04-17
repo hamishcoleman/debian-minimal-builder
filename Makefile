@@ -72,7 +72,7 @@ shellcheck:
 # install any packages needed for this builder
 build-depends: $(TAG)/build-depends
 $(TAG)/build-depends: Makefile
-	sudo apt-get -y install $(BUILD_DEPENDS)
+	sudo apt-get -qq install $(BUILD_DEPENDS)
 	$(call tag,build-depends)
 
 # some of the debian packages need a urandom to install properly
