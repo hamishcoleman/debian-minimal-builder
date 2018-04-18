@@ -13,6 +13,9 @@ log_user 1
 # Set the default time to wait for matches
 set timeout 60
 
+# The default directory to look for tests in (can be overridden by cmdline)
+set testdir "tests"
+
 # First arg is the command to run
 set test_command [ lindex $argv 0 ]
 if {$test_command eq ""} {
@@ -34,7 +37,7 @@ unset index
 
 # check for tests in the tests dir
 # (note, with no tests, this generates an error)
-set tests [lsort [glob "tests/*.expect"]]
+set tests [lsort [glob "$testdir/*.expect"]]
 
 # Since we are expecting to run qemu, provide a function to kill it off
 proc qemu_stop {} {
