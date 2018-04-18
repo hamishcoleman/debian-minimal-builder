@@ -74,7 +74,7 @@ echo "Running package scripts for $STAGE phase"
 if [ -n "$VERBOSE" ]; then
     echo 
     echo "Processing:"
-    echo -e -n "\t"
+    echo -e -n "\\t"
 fi
 
 for package in $PACKAGES; do
