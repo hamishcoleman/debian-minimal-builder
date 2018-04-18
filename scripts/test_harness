@@ -13,9 +13,6 @@ log_user 1
 # Set the default time to wait for matches
 set timeout 60
 
-# The default directory to look for tests in (can be overridden by cmdline)
-set testdir "tests"
-
 # First arg is the command to run
 set test_command [ lindex $argv 0 ]
 if {$test_command eq ""} {
@@ -23,21 +20,30 @@ if {$test_command eq ""} {
     exit 1
 }
 
-# all other args are variables to set
+set tests [list]
+
+# all other args are variables to set or tests to run
 set index 1
 while {$index < $argc} {
     set kvpair [ split [ lindex $argv $index ] "=" ]
 
-    eval global [ lindex $kvpair 0 ]
-    eval set [ lindex $kvpair 0 ] [ lindex $kvpair 1 ]
+    if {[llength $kvpair] == 2} {
+        # we found an equals sign, so this is a variable assignment
+        eval global [ lindex $kvpair 0 ]
+        eval set [ lindex $kvpair 0 ] [ lindex $kvpair 1 ]
+    } else {
+        # this is actually a named test to run
+        lappend tests $kvpair
+    }
 
     incr index
 }
 unset index
 
-# check for tests in the tests dir
-# (note, with no tests, this generates an error)
-set tests [lsort [glob "$testdir/*.expect"]]
+if {[llength $tests] == 0} {
+    puts "Warning: No tests to run, this is unlikely to be what you want\n"
+    exit 1
+}
 
 # Since we are expecting to run qemu, provide a function to kill it off
 proc qemu_stop {} {
