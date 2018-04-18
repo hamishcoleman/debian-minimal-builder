@@ -46,8 +46,9 @@ proc qemu_stop {} {
 
 # Provide a simple function to stop with error and message
 proc bad { errorcode message } {
+    global testname
     puts "\n\n"
-    puts "ERROR: $message\n"
+    puts "ERROR: $testname: $message\n"
     qemu_stop
     exit $errorcode
 }
@@ -56,7 +57,7 @@ proc bad { errorcode message } {
 set pid [eval spawn $test_command]
 
 foreach testname $tests {
-    puts "\n\nStarting $testname"
+    puts "\n\nTesting with $testname"
     set result [source $testname]
     # TODO - check for unexpected return values and exit early
 }
