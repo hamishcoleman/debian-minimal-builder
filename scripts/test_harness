@@ -30,6 +30,7 @@ while {$index < $argc} {
 
     incr index
 }
+unset index
 
 # check for tests in the tests dir
 # (note, with no tests, this generates an error)
