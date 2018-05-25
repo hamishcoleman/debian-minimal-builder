@@ -116,8 +116,14 @@ $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH): $(DEBOOT)/dev/urandom
 $(DEBOOT)/usr/bin/qemu-arm-static: /usr/bin/qemu-arm-static
 	sudo cp /usr/bin/qemu-arm-static $(DEBOOT)/usr/bin/qemu-arm-static
 
+# As a quick fix to the above TODO items, just avoid the dep if we are not
+# building for that arch
+ifeq ($(CONFIG_DEBIAN_ARCH),armhf)
+$(TAG)/multistrap-post.$(CONFIG_DEBIAN_ARCH): $(DEBOOT)/usr/bin/qemu-arm-static
+endif
+
 # multistrap-post runs the package configure scripts under emulation
-$(TAG)/multistrap-post.$(CONFIG_DEBIAN_ARCH): $(DEBOOT)/usr/bin/qemu-arm-static $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH)
+$(TAG)/multistrap-post.$(CONFIG_DEBIAN_ARCH): $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH)
 	sudo chroot $(DEBOOT) ./multistrap.configscript >>$(BUILD)/multistrap.log
 	$(call tag,multistrap-post.$(CONFIG_DEBIAN_ARCH))
 
