@@ -48,9 +48,13 @@ if {[llength $tests] == 0} {
 # Since we are expecting to run qemu, provide a function to kill it off
 proc qemu_stop {} {
     global pid
+    puts "Sending terminal escape sequence to tell Qemu to exit\n"
     send "\x01x"
+    puts "Sending kill signal to Qemu $pid\n"
     exec kill $pid
+    puts "Closing expect channel\n"
     close
+    puts "Waiting for sub-process exit\n"
     wait
 }
 
