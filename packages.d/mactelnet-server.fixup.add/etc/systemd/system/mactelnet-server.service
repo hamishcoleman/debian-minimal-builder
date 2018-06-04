@@ -1,0 +1,20 @@
+# the mactelenetd will exit if it finds no up interfaces with ip addreses,
+# which is often the case in the rescue environment, so we take steps to
+# ensure that the service is constantly restarted until it is working.
+[Unit]
+Description=Telnet daemon for Mikrotik Mac-Telnet protocol
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=forking
+Restart=always
+RestartSec=1
+TimeoutSec=20
+IgnoreSIGPIPE=no
+KillMode=process
+RemainAfterExit=no
+ExecStart=/etc/init.d/mactelnet-server start
+ExecStop=/etc/init.d/mactelnet-server stop
