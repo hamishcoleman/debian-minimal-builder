@@ -5,6 +5,10 @@ DEBOOT="$1"
 #ARCH="$2"
 
 # shellcheck disable=SC2086
+# Unneeded backups
+rm -f $DEBOOT/var/cache/debconf/*-old $DEBOOT/var/lib/dpkg/*-old
+
+# shellcheck disable=SC2086
 # Always minimise the image by removing these large chunks of files
 rm -rf ${DEBOOT}/usr/share/locale/*
 
