@@ -1,0 +1,26 @@
+#!/bin/bash
+# Copyright (C) 2018 Hamish Coleman <hamish@zot.org>
+
+DEBOOT="$1"
+#ARCH="$2"
+
+# TODO
+# - this becomes a lot simpler with newer versions of agetty supporting an
+#   /etc/issue.d directory
+
+rm -f "${DEBOOT}/etc/issue"
+
+VERSION=$(git describe --always --dirty)
+echo "BUILDER_VER=$VERSION" >>${DEBOOT}/etc/os-release
+echo "Builder \S{BUILDER_VER}" >>${DEBOOT}/etc/issue
+
+if [ "$CONFIGDIRS" != "." ]; then
+    echo "BUILDER_DIRS=$CONFIGDIRS" >>${DEBOOT}/etc/os-release
+    echo "Configs \S{BUILDER_DIRS}" >>${DEBOOT}/etc/issue
+fi
+
+cat <<EOF >>${DEBOOT}/etc/issue
+
+\S \n (\4) \l
+
+EOF
