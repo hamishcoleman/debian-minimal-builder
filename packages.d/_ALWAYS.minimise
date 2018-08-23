@@ -13,3 +13,16 @@ rm -rf ${DEBOOT}/usr/share/locale/*
 rm -rf ${DEBOOT}/usr/share/zoneinfo/*     # tzdata
 rm -f "${DEBOOT}/lib/udev/hwdb.bin"       # udev
 
+# shellcheck disable=SC2086
+# Since the documents and man pages actually belong to individual packages,
+# they could be individually removed by specific package config.  However,
+# it is a lot simpler to generalise it here.
+rm -rf ${DEBOOT}/usr/share/doc/*
+
+# shellcheck disable=SC2086
+# Localised man pages
+rm -rf ${DEBOOT}/usr/share/man/?? ${DEBOOT}/usr/share/man/??_??
+
+# shellcheck disable=SC2086
+# Character set conversion utilities (nominally part of libc6)
+rm -rf ${DEBOOT}/usr/lib/i386-linux-gnu/gconv/*
