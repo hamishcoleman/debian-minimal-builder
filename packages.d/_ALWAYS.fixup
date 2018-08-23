@@ -9,4 +9,4 @@ rm -f "${DEBOOT}/etc/machine-id"
 rm -f "${DEBOOT}/lib/systemd/system/getty-static.service"
 
 # Prevent apt warning messages by removing this
-rm -f "${DEBOOT}/var/lib/apt/lists/auxfiles"
+rm -rf "${DEBOOT}/var/lib/apt/lists/auxfiles"
