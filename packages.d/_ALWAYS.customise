@@ -12,15 +12,13 @@ rm -f "${DEBOOT}/etc/issue"
 
 VERSION=$(git describe --always --dirty)
 echo "BUILDER_VER=$VERSION" >>${DEBOOT}/etc/os-release
-echo "Builder \S{BUILDER_VER}" >>${DEBOOT}/etc/issue
+echo "BUILDER_DIRS=$CONFIGDIRS" >>${DEBOOT}/etc/os-release
 
-if [ "$CONFIGDIRS" != "." ]; then
-    echo "BUILDER_DIRS=$CONFIGDIRS" >>${DEBOOT}/etc/os-release
-    echo "Configs \S{BUILDER_DIRS}" >>${DEBOOT}/etc/issue
-fi
 
 cat <<EOF >>${DEBOOT}/etc/issue
+Builder \S{BUILDER_VER}
+IP4addr \4
 
-\S \n (\4) \l
+\S \n \l
 
 EOF
