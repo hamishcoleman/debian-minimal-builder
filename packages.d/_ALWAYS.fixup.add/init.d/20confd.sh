@@ -25,7 +25,7 @@ try_partition() {
     # Find conf.d in root of partition and process in alphabetical order
     if [ -d "/mnt/$CONFDIR" ]; then
         # Extract each tar.gz archive into /etc overwriting existing files
-        for conf in /mnt/$CONFDIR/*.tar.gz; do
+        for conf in "/mnt/$CONFDIR"/*.tar.gz; do
             if [ ! -r "$conf" ]; then
                 continue
             fi
@@ -41,7 +41,7 @@ try_partition() {
         done
 
         # Execute each sh script
-        for script in /mnt/$CONFDIR/*.sh; do
+        for script in "/mnt/$CONFDIR"/*.sh; do
             if [ -x "$script" ]; then
                 echo "Executing configurations from /dev/$1: $script"
                 # shellcheck disable=SC1090

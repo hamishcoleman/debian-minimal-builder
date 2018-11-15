@@ -21,7 +21,7 @@ deps_scripts() {
     target+='.$(CONFIG_DEBIAN_ARCH)'
 
     echo "# Deps for scripts in the $phase phase"
-    for i in $dir/packages.d/*.$phase; do
+    for i in "$dir/packages.d"/*."$phase"; do
         # be sure to skip any vim swap files :-(
         case $(basename "$i") in
             .*.swp) continue;;
@@ -49,7 +49,7 @@ deps_addextra() {
     target+='.$(CONFIG_DEBIAN_ARCH)'
 
     echo "# Deps for added extra files in the $phase phase"
-    for dir in $dir/packages.d/*.${phase}.add; do
+    for dir in "$dir/packages.d"/*."${phase}.add"; do
         if [ -d "$dir" ]; then
             find "$dir" -type f | while read -r i; do
                 # be sure to skip any vim swap files :-(
@@ -75,7 +75,7 @@ deps_authorized_keys() {
     target+='.$(CONFIG_DEBIAN_ARCH)'
 
     echo "# Deps for any ssh keys found"
-    for file in $dir/authorized_keys/*.pub; do
+    for file in "$dir/authorized_keys"/*.pub; do
         # be sure to skip any vim swap files :-(
         case $(basename "$file") in
             .*.swp) continue;;
