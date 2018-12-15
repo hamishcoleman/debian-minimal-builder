@@ -38,6 +38,9 @@ if [ -n "$VERBOSE" ]; then
     echo "Info: Using search path of: $PACKAGEDIRS"
 fi
 
+# shellcheck disable=SC2154
+# Silly shellcheck, this is not a shell variable, which is why it is enclosed
+# in single quotes in this source.
 PACKAGES=$(dpkg-query --admindir="${DEBOOT}/var/lib/dpkg" --show --showformat='${Package}\n')
 
 # Add an always present virtual package
