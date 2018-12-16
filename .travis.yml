@@ -12,11 +12,9 @@ before_install:
     - echo "deb http://httpredir.debian.org/debian/ stretch main" |sudo tee /etc/apt/sources.list
     - sudo apt-get update
     - sudo apt-get dist-upgrade -y
-    - sudo apt-get install -y debian-archive-keyring
 
 install:
     - make build-depends
-    - sudo apt-get install debian-archive-keyring
 
 script:
     - make test CONFIG_DISABLE_KVM=yes
