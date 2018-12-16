@@ -7,9 +7,9 @@ build properly when built on a Debian system.  The Continuous Integration
 tests provided by Travis-CI are using Ubuntu but this has caused issues
 and it is not recommended.
 
-It currently only creates a very minimal debian system, however it is
-intended that additional configuration can be added at both build time
-and at runtime for specific use cases (see the Configuration sections, below)
+It is indended to be simple to add additional configuration at both build
+time and at runtime for specific use cases (see the Configuration sections,
+below)
 
 Usage:
 
