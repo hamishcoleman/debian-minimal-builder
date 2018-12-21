@@ -172,13 +172,13 @@ $(TAG)/fixup.$(CONFIG_DEBIAN_ARCH): $(TAG)/multistrap.$(CONFIG_DEBIAN_ARCH)
 
 # image customisation - setting the default config.
 $(TAG)/customise.$(CONFIG_DEBIAN_ARCH): $(TAG)/multistrap.$(CONFIG_DEBIAN_ARCH)
-	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./scripts/packages.addextra \
-	    $(DEBOOT) $(CONFIG_DEBIAN_ARCH) customise
-	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./scripts/packages.runscripts \
-	    $(DEBOOT) $(CONFIG_DEBIAN_ARCH) customise
 	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./scripts/authorized_keys_local \
 	    $(DEBOOT) $(CONFIG_DEBIAN_ARCH) customise
 	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./scripts/authorized_keys_path \
+	    $(DEBOOT) $(CONFIG_DEBIAN_ARCH) customise
+	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./scripts/packages.addextra \
+	    $(DEBOOT) $(CONFIG_DEBIAN_ARCH) customise
+	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./scripts/packages.runscripts \
 	    $(DEBOOT) $(CONFIG_DEBIAN_ARCH) customise
 	echo root:$(CONFIG_ROOT_PASS) | sudo chpasswd -c SHA256 -R $(realpath $(DEBOOT))
 	$(call tag,customise.$(CONFIG_DEBIAN_ARCH))
