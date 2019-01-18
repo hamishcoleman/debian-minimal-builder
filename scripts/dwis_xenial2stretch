@@ -15,7 +15,7 @@ set -e
 
 # The template used by Travis does upgrade its kernel occasionally, so
 # search for the right kernel package name
-EXTRA=$(dpkg-query -f '${Package}\n' -l linux-image-extra-*)
+EXTRA=$(dpkg-query -f '${Package}\n' -W linux-image-extra-*)
 
 # shellcheck disable=SC2086
 # remove the packages that have been found to conflict with Debian
