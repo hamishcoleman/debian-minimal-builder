@@ -46,8 +46,11 @@ test: shellcheck
 	./scripts/test_harness "make test_run" config_pass=$(CONFIG_ROOT_PASS) tests/*.expect
 
 # A list of all the shell scripts that need linting
-# First, the scripts we run during the build
-SHELLSCRIPTS := scripts/packages.addextra scripts/packages.runscripts
+
+# First, the script needed to setup the Travis CI environment
+SHELLSCRIPTS := scripts/dwis_xenial2stretch
+# the scripts we run during the build
+SHELLSCRIPTS += scripts/packages.addextra scripts/packages.runscripts
 SHELLSCRIPTS += scripts/configdir_deps
 SHELLSCRIPTS += scripts/authorized_keys_local scripts/authorized_keys_path
 # then the scripts that are copied into the build

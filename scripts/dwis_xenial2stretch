@@ -1,0 +1,34 @@
+#!/bin/sh
+#
+# The travis CI system uses Ubuntu.  Which is often the same as Debian, unless
+# you look too closely.  Some of the places that you should not look closely
+# at are tickled by the build process in this repository.
+#
+# So, to avoid any doubt, this script does a full in-place crossgrade to Debian
+# to allow the build and test process to complete on Debian binaries.
+#
+# Since the travis YML process has quite poor quoting rules and refuses to just
+# do what I say, the process was extracted to this script
+
+set -x
+set -e
+
+# The template used by Travis does upgrade its kernel occasionally, so
+# search for the right kernel package name
+EXTRA=$(dpkg-query -f '${Package}\n' -l linux-image-extra-*)
+
+# shellcheck disable=SC2086
+# remove the packages that have been found to conflict with Debian
+dpkg -P wireless-regdb crda linux-image-generic linux-image-generic-lts-xenial $EXTRA
+
+# Install the package containing the debian archive signing key
+apt-get install -y debian-archive-keyring
+
+# Replace the sources with Debian ones
+rm -f /etc/apt/sources.list.d/*
+echo "deb http://httpredir.debian.org/debian/ stretch main" > /etc/apt/sources.list
+
+# Perform the upgrade
+apt-get update
+apt-get dist-upgrade -y
+
