@@ -6,7 +6,7 @@ language: minimal
 # The recommended and tested build environment is Debian, so hack travis to
 # be a Debian Stretch install
 before_install:
-    - sudo dpkg -P $(dpkg-query -f '${Package}\n' linux-image-extra-*) wireless-regdb crda linux-image-generic linux-image-generic-lts-xenial
+    - sudo dpkg -P $(dpkg-query -f '${Package}\\n' linux-image-extra-*) wireless-regdb crda linux-image-generic linux-image-generic-lts-xenial
     - sudo apt-get install -y debian-archive-keyring
     - sudo rm -f /etc/apt/sources.list.d/*
     - echo "deb http://httpredir.debian.org/debian/ stretch main" |sudo tee /etc/apt/sources.list
