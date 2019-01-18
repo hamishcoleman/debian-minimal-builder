@@ -22,6 +22,7 @@ EXTRA=$(dpkg-query -f '${Package}\n' -W linux-image-extra-*)
 dpkg -P wireless-regdb crda linux-image-generic linux-image-generic-lts-xenial $EXTRA
 
 # Install the package containing the debian archive signing key
+apt-get update
 apt-get install -y debian-archive-keyring
 
 # Replace the sources with Debian ones
