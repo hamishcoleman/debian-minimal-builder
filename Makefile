@@ -31,7 +31,7 @@ BUILD_DEPENDS = \
 # A default target to tell you what other targets might work
 all:
 	$(info Build a platform neutral debian install)
-	$(info Try: $(MAKE) build/debian.stretch.armhf.cpio CONFIG_DEBIAN_ARCH=armhf)
+	$(info Try: $(MAKE) build/debian.$(CONFIG_DEBIAN).armhf.cpio CONFIG_DEBIAN_ARCH=$(CONFIG_DEBIAN_ARCH))
 	$(info or other variations for i386)
 
 # Build and boot a test environment
