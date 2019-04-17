@@ -10,6 +10,16 @@ if [ ! -e /proc/uptime ]; then
     PROC_NEEDS_UMOUNT=1
 fi
 
+# TODO:
+# - This little snippet was extracted from the base-files post inst
+# - Suggests that there should be another phase added for pre-configscript
+#   per-package fixup scripts
+if [ ! -L /var/run ]; then
+    echo "INFO: migrating /var/run to be a link"
+    rmdir /var/run
+    ln -s /run /var/run
+fi
+
 /var/lib/dpkg/info/dash.preinst install
 
 export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true
