@@ -46,10 +46,10 @@ CLEAN_FILES += $(DEBIAN_MODULES) $(basename $(DEBIAN_MODULES))
 
 .FORCE:
 
-../build/debian.stretch.i386.cpio: .FORCE
-	$(MAKE) -C .. build/debian.stretch.i386.cpio
+../build/debian.$(CONFIG_DEBIAN_VER).$(CONFIG_DEBIAN_ARCH).cpio: .FORCE
+	$(MAKE) -C .. build/debian.$(CONFIG_DEBIAN_VER).$(CONFIG_DEBIAN_ARCH).cpio
 
-combined.initrd: $(DEBIAN_MODULES) ../build/debian.stretch.i386.cpio
+combined.initrd: $(DEBIAN_MODULES) ../build/debian.$(CONFIG_DEBIAN_VER).$(CONFIG_DEBIAN_ARCH).cpio
 	cat $^ >$@
 CLEAN_FILES += combined.initrd
 
