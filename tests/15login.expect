@@ -8,7 +8,7 @@ if {$config_pass eq ""} {
 expect login {send root\r}              timeout {bad 1 "login prompt"}
 expect assword {send $config_pass\r}    timeout {bad 1 "password prompt"}
 expect {
-    root@ramdisk        {send "who am i\r"}
+    root@ramdisk        {cmdline "who am i"}
     "Login incorrect"   {bad 1 "Incorrect password"}
     timeout             {bad 1 "Login success"}
 }

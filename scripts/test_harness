@@ -45,6 +45,11 @@ if {[llength $tests] == 0} {
     exit 1
 }
 
+#####################################################################
+#
+# Define some helper functions to help make writing the tests simpler
+#
+
 # Since we are expecting to run qemu, provide a function to kill it off
 proc qemu_stop {} {
     global pid
@@ -66,6 +71,21 @@ proc bad { errorcode message } {
     qemu_stop
     exit $errorcode
 }
+
+# Run a command, assuming the command will be echoed back to us
+proc cmdline { cmdline } {
+    send $cmdline
+    expect {
+        timeout  {bad 1 "Command was not echoed back"}
+        $cmdline {
+            send "\r"
+            return
+        }
+    }
+}
+
+#
+#####################################################################
 
 # Start the command under test
 set pid [eval spawn $test_command]

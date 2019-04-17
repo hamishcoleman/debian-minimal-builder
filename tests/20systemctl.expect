@@ -1,13 +1,12 @@
 #
 # Check that systemd thinks the system has booted with no errors
 
-expect "root@ramdisk"   {send "systemctl is-system-running\r"}
-expect "systemctl is-system-running" {}
+expect "root@ramdisk"   {cmdline "systemctl is-system-running"}
 
 expect {
     "degraded"   {bad 1 "systemctl state is degraded"}
     "starting"   {
-        expect "root@ramdisk" {send "systemctl list-jobs\r"}
+        expect "root@ramdisk" {cmdline "systemctl list-jobs"}
     }
     "running"    {}
 }
