@@ -6,10 +6,11 @@ expect "systemctl is-system-running" {}
 
 expect {
     "degraded"   {bad 1 "systemctl state is degraded"}
-    "starting"   {}
+    "starting"   {
+        expect "root@ramdisk" {send "systemctl list-jobs\r"}
+    }
     "running"    {}
 }
 
 # TODO
 # - if state: starting, wait for the jobs to finish?
-# - perhaps check the "systemctl list-jobs" output?
