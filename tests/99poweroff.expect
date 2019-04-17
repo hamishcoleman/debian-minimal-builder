@@ -1,0 +1,5 @@
+#
+# At the end of testing, do a clean shutdown
+
+expect "root@ramdisk"   {send "systemctl poweroff\r"}
+expect "reboot: Power down" {}
