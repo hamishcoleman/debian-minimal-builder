@@ -1,15 +1,14 @@
 
 # The kernel files we download
-debian.stretch.i386.initrd.gz
-debian.stretch.i386.kernel
+debian.*.i386.initrd.gz
+debian.*.i386.kernel
 
 # The modules we extract from the downloaded initrd
-debian.stretch.i386.modules.cpio
-debian.stretch.i386.modules/
+debian.*.i386.modules.cpio
+debian.*.i386.modules/
 
 # The debian buildroot and modules combined
 combined.initrd
 
 # A persistent storage file for testing
 persistent.storage
-
