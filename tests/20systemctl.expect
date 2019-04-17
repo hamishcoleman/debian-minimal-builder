@@ -13,3 +13,7 @@ expect {
 
 # TODO
 # - if state: starting, wait for the jobs to finish?
+
+# Some simple outputs for checking timing
+cmdline "date"
+cmdline "uptime"
