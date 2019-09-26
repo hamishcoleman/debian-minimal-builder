@@ -10,7 +10,7 @@
 # Default to just looking in the local directory for config files
 CONFIGDIRS ?= .
 
-CONFIG_DEBIAN = stretch
+CONFIG_DEBIAN = buster
 CONFIG_DEBIAN_ARCH ?= armhf
 
 CONFIG_ROOT_PASS = root

@@ -6,7 +6,7 @@
 
 all: test
 
-CONFIG_DEBIAN_VER = stretch
+CONFIG_DEBIAN_VER = buster
 CONFIG_DEBIAN_ARCH = i386
 export CONFIG_DEBIAN_ARCH
 

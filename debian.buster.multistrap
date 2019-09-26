@@ -1,13 +1,13 @@
 [General]
-bootstrap=Stretch
-aptsources=Stretch
+bootstrap=Buster
+aptsources=Buster
 configscript=multistrap.configscript
 
 cleanup=true
 
-[Stretch]
+[Buster]
 source=http://httpredir.debian.org/debian
-suite=stretch
+suite=buster
 omitdebsrc=true
 keyring=debian-archive-keyring
 components=main contrib non-free
