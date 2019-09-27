@@ -54,7 +54,7 @@ do_package() {
         if [ -n "$VERBOSE" ]; then
             echo -n "$dir/$package "
         fi
-        cp -u -v -r "$dir/$package.${STAGE}.add/." "${DEBOOT}"
+        cp -v -r "$dir/$package.${STAGE}.add/." "${DEBOOT}"
         S=$?
 
         if [ $S -ne 0 ]; then
