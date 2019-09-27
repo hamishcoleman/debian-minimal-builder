@@ -23,6 +23,9 @@ if [ -z "$UDC" ]; then
 fi
 
 modprobe libcomposite
+modprobe usb_f_acm
+modprobe usb_f_eem
+modprobe usb_f_mass_storage
 
 cd /sys/kernel/config/usb_gadget/ || exit
 
