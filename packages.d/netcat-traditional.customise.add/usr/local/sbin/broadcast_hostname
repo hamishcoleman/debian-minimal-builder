@@ -6,6 +6,6 @@
 while [ $SECONDS -lt 600 ]; do
     HOSTNAME=$(hostname)
     IP=$(ip -o route get 255.255.255.255 | cut -d" " -f6)
-    date "+%s $HOSTNAME $IP"
-    sleep 5s
-done | nc -q0 -u -b 255.255.255.255 514
+    date "+%s $HOSTNAME $IP" | nc -w1 -u -b 255.255.255.255 514
+    sleep 4s
+done
