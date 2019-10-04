@@ -1,0 +1,14 @@
+#  Announce on the network - for easier initial config and debugging
+#
+
+[Unit]
+Description=Broadcast Hostname to the network
+After=systemd-sysusers.service systemd-networkd.service
+Before=network.target nss-lookup.target shutdown.target
+Conflicts=shutdown.target
+
+[Service]
+ExecStart=/usr/local/sbin/broadcast_hostname
+
+[Install]
+WantedBy=multi-user.target
