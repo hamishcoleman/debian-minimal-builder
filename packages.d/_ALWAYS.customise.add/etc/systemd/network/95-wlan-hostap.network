@@ -16,3 +16,9 @@ Address=0.0.0.0/24
 IPForward=true
 IPMasquerade=true
 
+[DHCPServer]
+# Ideally, networkd would get the upstream DNS address and use that to send
+# downstream.  However, there is either a race condition or a code error and
+# that doesnt down unless we force it.
+EmitDNS=yes
+DNS=9.9.9.9
