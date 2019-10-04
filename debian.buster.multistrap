@@ -31,7 +31,7 @@ packages= openssh-client
 packages= dropbear-run
 
 # wireless management
-packages= iw hostapd crda
+packages= iw hostapd
 
 # local-net only network management
 packages= mactelnet-server
