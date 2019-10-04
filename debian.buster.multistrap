@@ -13,7 +13,7 @@ keyring=debian-archive-keyring
 components=main contrib non-free
 
 # Base system needs these three packages
-packages= systemd udev kmod
+packages= systemd udev kmod dbus
 
 # allow scripts to read .init style files
 packages= confget
