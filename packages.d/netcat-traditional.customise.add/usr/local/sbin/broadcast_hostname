@@ -3,9 +3,11 @@
 # Broadcast 10 minutes of announcements out on the network
 #
 
-while [ $SECONDS -lt 600 ]; do
+N=0
+while [ $N -lt 120 ]; do
     HOSTNAME=$(hostname)
     IP=$(ip -o route get 255.255.255.255 | cut -d" " -f6)
     date "+%s $HOSTNAME $IP" | nc -w1 -u -b 255.255.255.255 514
+    N=$((N+1))
     sleep 4s
 done
