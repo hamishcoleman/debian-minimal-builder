@@ -2,6 +2,10 @@
 #
 # Broadcast 10 minutes of announcements out on the network
 #
+# These announcements can be received by another computer on the same
+# subnet, using something similar to:
+#   nc -k -l -u 514
+#
 
 N=0
 while [ $N -lt 120 ]; do
