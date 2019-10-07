@@ -3,26 +3,29 @@
 # Read an initramdisk archive and simply list the files in it.
 # Slightly more more useful than just "cpio -i -t" beacause libarchive
 # takes care of uncompressing and we take care to show concatenated archives.
-# 
+#
 # Assume LZMA compression
 
 import os
-import sys
 import argparse
+
 import libarchive
+
 
 def argsparser():
     parser = argparse.ArgumentParser(
             description='Show the contents of an initramdisk')
     parser.add_argument('-i', '--input', required=True,
-            type=argparse.FileType('rb', bufsize=4096),
-            help='the input initramdisk archive')
+                        type=argparse.FileType('rb', bufsize=4096),
+                        help='the input initramdisk archive')
 
     return parser.parse_args()
+
 
 # really? there is no standard stream method for "currently at EOF" ?@?
 def eof(file):
     return file.tell() == os.fstat(file.fileno()).st_size
+
 
 def main():
     args = argsparser()
@@ -59,6 +62,7 @@ def main():
             # ensure that the separate archives are visible, if you go looking
             print()
             break
+
 
 if __name__ == '__main__':
     main()
