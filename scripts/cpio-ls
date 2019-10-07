@@ -24,8 +24,16 @@ def argsparser():
 
 
 # really? there is no standard stream method for "currently at EOF" ?@?
+# Basically, what I want is that any short read on a blocking file should
+# set a "EOF" flag, which we can check
 def eof(file):
-    return file.tell() == os.fstat(file.fileno()).st_size
+    current_size = os.fstat(file.fileno()).st_size
+    try:
+        current_pos = file.tell()
+    except OSError:
+        return False
+
+    return current_size == current_pos
 
 
 def main():
