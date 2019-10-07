@@ -8,6 +8,7 @@
 
 import os
 import argparse
+import io
 
 import libarchive
 
@@ -47,7 +48,14 @@ def main():
         # Seek backwards, then look forwards for a LZMA start block:
         # 5d 00 00 80 00 ff ff ff ff ff ff ff ff
 
-        args.input.seek(-8192, 1)
+        try:
+            args.input.seek(-8192, 1)
+        except io.UnsupportedOperation:
+            # If we cannot fix the libarchive resync issue, dont even try
+            # TODO:
+            # - should this show a warning? or set an exit code?
+            break
+
         while not eof(args.input):
             ch = args.input.read(1)
             if ch != b'\x5d':
