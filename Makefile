@@ -27,6 +27,8 @@ BUILD_DEPENDS = \
     qemu-system-x86 \
     expect \
     shellcheck \
+    python3-libarchive-c \
+    flake8
 
 # A default target to tell you what other targets might work
 all:
@@ -41,7 +43,7 @@ test_run:
 
 # Run a test script against the booted test environment
 .PHONY: test
-test: shellcheck
+test: shellcheck flake8
 	$(MAKE) -C test prepare
 	./scripts/test_harness "make test_run" config_pass=$(CONFIG_ROOT_PASS) tests/*.expect
 
@@ -71,6 +73,13 @@ SHELLSCRIPTS += packages.d/_ALWAYS.fixup.add/usr/local/sbin/config_save \
 # Run a shell script linter
 shellcheck:
 	shellcheck $(SHELLSCRIPTS)
+
+# A list of python scripts that need linting
+PYTHONSCRIPTS := scripts/cpio-ls
+
+# Run a python linter
+flake8:
+	flake8 $(PYTHONSCRIPTS)
 
 # install any packages needed for this builder
 build-depends: $(TAG)/build-depends
