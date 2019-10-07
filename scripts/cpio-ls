@@ -9,6 +9,7 @@
 import argparse
 import io
 import os
+import sys
 
 import libarchive
 
@@ -61,13 +62,20 @@ def main():
         # Seek backwards, then look forwards for a LZMA start block:
         # 5d 00 00 80 00 ff ff ff ff ff ff ff ff
 
-        try:
-            infile.seek(-8192, 1)
-        except io.UnsupportedOperation:
-            # If we cannot fix the libarchive resync issue, dont even try
-            # TODO:
-            # - should this show a warning? or set an exit code?
-            break
+        if not eof(infile):
+            try:
+                infile.seek(-8192, 1)
+            except io.UnsupportedOperation:
+                # If we cannot fix the libarchive resync issue, dont even try
+                # TODO:
+                # - should this set an exit code?
+
+                # This destroys our filepointer position, but that should be
+                # ok, since we are not planning any more reads on thie file
+                if len(infile.read(1)):
+                    print('WARN: unread trailing data on stdin',
+                          file=sys.stderr)
+                break
 
         while not eof(infile):
             ch = infile.read(1)
