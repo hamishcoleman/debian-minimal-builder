@@ -27,9 +27,6 @@ def eof(file):
 def main():
     args = argsparser()
 
-    packages = dict()
-
-
     while not eof(args.input):
         with libarchive.stream_reader(args.input) as archive:
             for entry in archive:
