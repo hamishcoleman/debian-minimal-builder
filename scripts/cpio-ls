@@ -80,6 +80,8 @@ def main():
         while not eof(infile):
             ch = infile.read(1)
             if ch != b'\x5d':
+                # TODO
+                # - dont look forever, give up with a warning afer x bytes
                 continue
 
             head = infile.read(12)
