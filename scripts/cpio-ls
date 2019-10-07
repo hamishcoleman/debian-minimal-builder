@@ -31,8 +31,13 @@ def eof(file):
 def main():
     args = argsparser()
 
-    while not eof(args.input):
-        with libarchive.stream_reader(args.input) as archive:
+    infile = args.input
+
+    if hasattr(infile, 'buffer'):
+        infile = infile.buffer
+
+    while not eof(infile):
+        with libarchive.stream_reader(infile) as archive:
             for entry in archive:
                 print(entry.name)
 
@@ -49,23 +54,23 @@ def main():
         # 5d 00 00 80 00 ff ff ff ff ff ff ff ff
 
         try:
-            args.input.seek(-8192, 1)
+            infile.seek(-8192, 1)
         except io.UnsupportedOperation:
             # If we cannot fix the libarchive resync issue, dont even try
             # TODO:
             # - should this show a warning? or set an exit code?
             break
 
-        while not eof(args.input):
-            ch = args.input.read(1)
+        while not eof(infile):
+            ch = infile.read(1)
             if ch != b'\x5d':
                 continue
 
-            head = args.input.read(12)
+            head = infile.read(12)
             if head != b'\x00\x00\x80\x00\xff\xff\xff\xff\xff\xff\xff\xff':
                 continue
 
-            args.input.seek(-13, 1)
+            infile.seek(-13, 1)
 
             # ensure that the separate archives are visible, if you go looking
             print()
