@@ -6,9 +6,9 @@
 #
 # Assume LZMA compression
 
-import os
 import argparse
 import io
+import os
 
 import libarchive
 
