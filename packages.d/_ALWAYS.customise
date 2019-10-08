@@ -10,15 +10,3 @@ sed -i -e '/^BUILDER_.*/d' ${DEBOOT}/etc/os-release
 VERSION=$(git describe --always --dirty)
 echo "BUILDER_VER=$VERSION" >>${DEBOOT}/etc/os-release
 echo "BUILDER_DIRS=$CONFIGDIRS" >>${DEBOOT}/etc/os-release
-
-# TODO
-# - this becomes a lot simpler with newer versions of agetty supporting an
-#   /etc/issue.d directory
-
-cat <<EOF >${DEBOOT}/etc/issue
-Builder \S{BUILDER_VER}
-IP4addr \4
-
-\S \n \l
-
-EOF
