@@ -3,6 +3,9 @@
 # Reading the correct files from the configured search path, construct
 # the multistrap config file that we will actually use
 #
+# TODO:
+# - possibly use a template language to interpret the --template file
+# - load lines formatted like apt.sources to construct the multistrap source
 
 import argparse
 
@@ -10,8 +13,8 @@ import argparse
 def argsparser():
     parser = argparse.ArgumentParser(
             description='Create the multistrap conf')
-    parser.add_argument('--packages',
-                        help='a list of packages to add')
+    parser.add_argument('--packagefile', nargs='+',
+                        help='Add the packages listed in this file')
     parser.add_argument('--template', required=True,
                         type=argparse.FileType('r'),
                         help='The template multistrap conf to use')
@@ -21,17 +24,41 @@ def argsparser():
     return parser.parse_args()
 
 
+def read_packages(files):
+    """Read lists of package names from each of the given files"""
+
+    packages = dict()
+
+    for file in files:
+        input = open(file, 'r')
+
+        for line in input:
+            line = line.strip()
+            if not line:
+                continue
+            if line.startswith('#'):
+                continue
+            packages[line] = 1
+
+    return list(packages.keys())
+
+
 def main():
     args = argsparser()
+
+    packages = list()
+
+    if args.packagefile:
+        packages = read_packages(args.packagefile)
 
     output = open(args.output, 'w')
 
     for line in args.template:
         print(line.strip(), file=output)
 
-    if args.packages:
+    if packages:
         print(file=output)
-        print("packages={}".format(args.packages), file=output)
+        print("packages=", ' '.join(packages), file=output)
 
 
 if __name__ == '__main__':

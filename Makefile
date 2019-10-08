@@ -101,9 +101,6 @@ $(TAG)/policy-rc.d.add: policy-rc.d
 # a list of files, which contain additional packages to install
 packages_lists := $(wildcard $(addsuffix /packages.txt,$(CONFIGDIRS)))
 
-# the actual list of these additional packages
-packages = $(shell sed -e 's/\#.*//' $(packages_lists))
-
 multistrap_conf_base := debian.$(CONFIG_DEBIAN).multistrap
 multistrap_conf_src := $(lastword $(wildcard $(addsuffix /$(multistrap_conf_base),$(CONFIGDIRS))))
 
@@ -113,7 +110,7 @@ $(MULTISTRAP_CONF): scripts/multistrapconf-create
 $(MULTISTRAP_CONF): $(multistrap_conf_src) $(packages_lists)
 	scripts/multistrapconf-create \
 	    --template $(multistrap_conf_src) \
-	    --packages "$(packages)" \
+	    $(addprefix --packagefile=, $(packages_lists)) \
 	    --output $@
 
 # multistrap-pre runs the basic multistrap program, installing the packages
