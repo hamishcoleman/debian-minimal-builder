@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+#
+# Reading the correct files from the configured search path, construct
+# the multistrap config file that we will actually use
+#
+
+import argparse
+
+
+def argsparser():
+    parser = argparse.ArgumentParser(
+            description='Create the multistrap conf')
+    parser.add_argument('--packages',
+                        help='a list of packages to add')
+    parser.add_argument('--template', required=True,
+                        type=argparse.FileType('r'),
+                        help='The template multistrap conf to use')
+    parser.add_argument('--output', required=True,
+                        help='Name of the output file')
+
+    return parser.parse_args()
+
+
+def main():
+    args = argsparser()
+
+    output = open(args.output, 'w')
+
+    for line in args.template:
+        print(line.strip(), file=output)
+
+    if args.packages:
+        print(file=output)
+        print("packages={}".format(args.packages), file=output)
+
+
+if __name__ == '__main__':
+    main()

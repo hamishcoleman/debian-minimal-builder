@@ -76,6 +76,7 @@ shellcheck:
 
 # A list of python scripts that need linting
 PYTHONSCRIPTS := scripts/cpio-ls
+PYTHONSCRIPTS += scripts/multistrapconf-create
 
 # Run a python linter
 flake8:
@@ -108,10 +109,12 @@ multistrap_conf_src := $(lastword $(wildcard $(addsuffix /$(multistrap_conf_base
 
 MULTISTRAP_CONF=$(BUILD)/$(multistrap_conf_base)
 
+$(MULTISTRAP_CONF): scripts/multistrapconf-create
 $(MULTISTRAP_CONF): $(multistrap_conf_src) $(packages_lists)
-	cat $< >$@
-	echo >>$@
-	echo packages=$(packages) >>$@
+	scripts/multistrapconf-create \
+	    --template $(multistrap_conf_src) \
+	    --packages "$(packages)" \
+	    --output $@
 
 # multistrap-pre runs the basic multistrap program, installing the packages
 # until they need to run native code
