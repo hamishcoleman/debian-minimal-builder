@@ -126,7 +126,8 @@ A quick list of things that probably need doing:
 (sorted vaguely by importance)
 
 * Ensure ssh host keys are not saved in image and are regenerated if needed
-* Add some extra randomness into image
+* Add some build-time randomness into image
+    dd if=/dev/urandom bs=512 count=1 of=$DEBOOT/var/lib/systemd/random-seed
 * Load any extra randomness found on boot media
 * Document the dependancy checking and its implications for deleted, renamed
   or new files
