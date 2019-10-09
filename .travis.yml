@@ -1,12 +1,7 @@
 sudo: enabled
-dist: xenial
+dist: bionic
 
 language: minimal
-
-# The recommended and tested build environment is Debian, so hack travis to
-# be a Debian Stretch install
-before_install:
-    - sudo scripts/dwis_xenial2stretch
 
 install:
     - make build-depends
