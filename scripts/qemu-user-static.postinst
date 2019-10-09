@@ -7,6 +7,8 @@
 
 set -e
 
+DPKG_MAINTSCRIPT_ARCH=$(dpkg-architecture -q DEB_HOST_ARCH)
+
 # == binfmt registration/deregistration ==
 if command -v update-binfmts > /dev/null ; then
 
