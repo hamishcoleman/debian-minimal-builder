@@ -1,0 +1,39 @@
+[General]
+bootstrap=Unstable
+aptsources=Unstable
+configscript=multistrap.configscript
+
+cleanup=true
+
+[Unstable]
+source=http://deb.debian.org/debian-ports
+suite=unstable
+omitdebsrc=true
+keyring=debian-ports-archive-keyring
+components=main contrib non-free
+
+# Base system needs these three packages
+packages= systemd udev kmod dbus
+
+# allow scripts to read .init style files
+packages= confget
+
+# package management
+packages= apt
+
+# network configuration tools
+packages= iproute2
+
+# allow us to reach the rest of the world
+packages= openssh-client
+
+# allow the rest of the world to reach us
+packages= dropbear-run
+
+# wireless management
+packages= iw hostapd
+
+# Used for network announcements
+packages= netcat-traditional
+
+# libreadline7 ? gets /etc/inputrc, which should make ctrl-arrows work
