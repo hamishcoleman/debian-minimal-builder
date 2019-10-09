@@ -12,7 +12,7 @@ DPKG_MAINTSCRIPT_ARCH=$(dpkg-architecture -q DEB_HOST_ARCH)
 # == binfmt registration/deregistration ==
 if command -v update-binfmts > /dev/null ; then
 
-fmts="aarch64 alpha arm armeb cris hppa i386 m68k microblaze mips mipsel mipsn32 mipsn32el mips64 mips64el ppc ppc64 ppc64abi32 ppc64le riscv32 riscv64 s390x sh4 sh4eb sparc sparc32plus sparc64 x86_64 xtensa xtensaeb"
+fmts="aarch64 alpha arm armeb cris hppa i386 m68k microblaze mips mipsel mipsn32 mipsn32el mips64 mips64el ppc ppc64 ppc64abi32 ppc64le riscv64 s390x sh4 sh4eb sparc sparc32plus sparc64 x86_64 xtensa xtensaeb"
 
 # linux ELF_OSABI(byte7) can be 0 (traditional,SYSV) or 3 (GNU/LINUX extensions)
 # binfmt registration does not allow a enum, only value&mask.  So we use broader mask
@@ -53,8 +53,6 @@ fmts="aarch64 alpha arm armeb cris hppa i386 m68k microblaze mips mipsel mipsn32
   ppc64abi32_mask='\xff\xff\xff\xff\xff\xff\xff\xfc\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
     ppc64le_magic='\x7f\x45\x4c\x46\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x15\x00'
      ppc64le_mask='\xff\xff\xff\xff\xff\xff\xff\xfc\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\x00'
-    riscv32_magic='\x7f\x45\x4c\x46\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\xf3\x00'
-     riscv32_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
     riscv64_magic='\x7f\x45\x4c\x46\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\xf3\x00'
      riscv64_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
       s390x_magic='\x7f\x45\x4c\x46\x02\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x16'
