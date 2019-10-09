@@ -8,4 +8,6 @@ install:
     - make build-depends
 
 script:
+    - make build/debian.buster.armhf.cpio CONFIG_DEBIAN_ARCH=armhf
+    - make build/debian.buster.i386.cpio CONFIG_DEBIAN_ARCH=i386
     - make test CONFIG_DISABLE_KVM=yes
