@@ -6,7 +6,7 @@ language: minimal
 install:
     - sudo apt update
     - make build-depends
-    - scripts/qemu-user-static.postinst
+    - sudo scripts/qemu-user-static.postinst
 
 script:
     - make build/debian.buster.armhf.cpio CONFIG_DEBIAN_ARCH=armhf
