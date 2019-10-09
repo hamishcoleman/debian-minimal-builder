@@ -4,7 +4,7 @@ dist: bionic
 language: minimal
 
 install:
-    - apt update
+    - sudo apt update
     - make build-depends
 
 script:
