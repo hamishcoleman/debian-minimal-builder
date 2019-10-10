@@ -122,17 +122,6 @@ $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH): multistrap.configscript
 	    -f $(MULTISTRAP_CONF) >$(BUILD)/multistrap-pre.log
 	$(call tag,multistrap-pre.$(CONFIG_DEBIAN_ARCH))
 
-# TODO: if TARGET_ARCH == BUILD_ARCH, dont need to copy qemu
-# TODO: the qemu arch is not always the debian arch, handle this
-$(DEBOOT)/usr/bin/qemu-arm-static: /usr/bin/qemu-arm-static
-	sudo cp /usr/bin/qemu-arm-static $(DEBOOT)/usr/bin/qemu-arm-static
-
-# As a quick fix to the above TODO items, just avoid the dep if we are not
-# building for that arch
-ifeq ($(CONFIG_DEBIAN_ARCH),armhf)
-$(TAG)/multistrap-post.$(CONFIG_DEBIAN_ARCH): $(DEBOOT)/usr/bin/qemu-arm-static
-endif
-
 # multistrap-post runs the package configure scripts under emulation
 $(TAG)/multistrap-post.$(CONFIG_DEBIAN_ARCH): $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH)
 	sudo chroot $(DEBOOT) ./multistrap.configscript >>$(BUILD)/multistrap.log
@@ -169,7 +158,6 @@ $(TAG)/minimise.$(CONFIG_DEBIAN_ARCH): $(TAG)/multistrap.$(CONFIG_DEBIAN_ARCH)
 	sudo env "CONFIGDIRS=$(CONFIGDIRS)" ./scripts/packages.runscripts \
 	    $(DEBOOT) $(CONFIG_DEBIAN_ARCH) minimise
 	sudo rm -f $(DEBOOT)/multistrap.configscript $(DEBOOT)/dev/mmcblk0
-	#sudo rm -f $(DEBOOT)/usr/bin/qemu-arm-static
 	$(call tag,minimise.$(CONFIG_DEBIAN_ARCH))
 
 # fixup the image to actually boot
