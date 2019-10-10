@@ -7,9 +7,8 @@ install:
     - sudo apt-get update
     - make build-depends
     - echo "deb http://archive.ubuntu.com/ubuntu cosmic main restricted" | sudo tee /etc/apt/sources.list.d/cosmic.list
-    - find /etc/apt -ls
-    - cat /etc/apt/sources.list
-    - cat /etc/apt/sources.list.d/cosmic.list
+    - sudo apt-get update
+    - sudo apt list qemu-user-static
 
 script:
     - make build/debian.buster.armhf.cpio CONFIG_DEBIAN_ARCH=armhf
