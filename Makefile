@@ -88,6 +88,11 @@ $(TAG)/build-depends: Makefile
 	sudo apt-get -qq install $(BUILD_DEPENDS)
 	$(call tag,build-depends)
 
+# some of the debian packages need a urandom to install properly
+$(DEBOOT)/dev/urandom:
+	mkdir -p $(DEBOOT)/dev
+	sudo mknod $(DEBOOT)/dev/urandom c 1 9
+
 $(TAG)/policy-rc.d.add: policy-rc.d
 	sudo mkdir -p $(DEBOOT)/usr/sbin
 	sudo cp $< $(DEBOOT)/usr/sbin/policy-rc.d
@@ -118,6 +123,7 @@ $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH): builddir
 $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH): $(TAG)/policy-rc.d.add
 $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH): $(MULTISTRAP_CONF)
 $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH): multistrap.configscript
+$(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH): $(DEBOOT)/dev/urandom
 	sudo /usr/sbin/multistrap -d $(DEBOOT) --arch $(CONFIG_DEBIAN_ARCH) \
 	    -f $(MULTISTRAP_CONF) >$(BUILD)/multistrap-pre.log
 	$(call tag,multistrap-pre.$(CONFIG_DEBIAN_ARCH))
