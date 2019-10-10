@@ -6,9 +6,7 @@ language: minimal
 install:
     - sudo apt-get update
     - make build-depends
-    - echo "deb http://archive.ubuntu.com/ubuntu cosmic main restricted" | sudo tee /etc/apt/sources.list
-    - sudo apt-get update
-    - sudo apt-get install qemu-user-static
+    - find /etc/apt
 
 script:
     - make build/debian.buster.armhf.cpio CONFIG_DEBIAN_ARCH=armhf
