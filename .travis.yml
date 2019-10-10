@@ -7,6 +7,7 @@ install:
     - sudo apt-get update
     - make build-depends
     - sudo update-binfmts --disable
+    - sudo rm /var/lib/binfmts/qemu-*
     - sudo sed -i 's/bionic/cosmic/g' /etc/apt/sources.list
     - sudo apt-get update
     - sudo apt-get install qemu-user-static
