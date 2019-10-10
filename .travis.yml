@@ -6,9 +6,10 @@ language: minimal
 install:
     - sudo apt-get update
     - make build-depends
-    - find /etc/apt
+    - echo "deb http://archive.ubuntu.com/ubuntu cosmic main restricted" | sudo tee /etc/apt/sources.list.d/cosmic.list
+    - find /etc/apt -ls
     - cat /etc/apt/sources.list
-    - cat /etc/apt/sources.list.d/pgdg.list
+    - cat /etc/apt/sources.list.d/cosmic.list
 
 script:
     - make build/debian.buster.armhf.cpio CONFIG_DEBIAN_ARCH=armhf
