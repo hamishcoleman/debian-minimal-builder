@@ -6,7 +6,7 @@ language: minimal
 install:
     - sudo apt-get update
     - make build-depends
-    - echo "deb http://archive.ubuntu.com/ubuntu cosmic main restricted" | sudo tee /etc/apt/sources.list.d/cosmic.list
+    - sudo sed -i 's/bionic/cosmic/g' /etc/apt/sources.list
     - sudo apt-get update
     - sudo apt list qemu-user-static -a
 
