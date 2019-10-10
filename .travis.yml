@@ -8,7 +8,7 @@ install:
     - make build-depends
     - sudo sed -i 's/bionic/cosmic/g' /etc/apt/sources.list
     - sudo apt-get update
-    - sudo apt list qemu-user-static -a
+    - sudo apt-get install qemu-user-static
 
 script:
     - make build/debian.buster.armhf.cpio CONFIG_DEBIAN_ARCH=armhf
