@@ -13,4 +13,5 @@ install:
 script:
     - make build/debian.buster.armhf.cpio CONFIG_DEBIAN_ARCH=armhf
     - make build/debian.buster.i386.cpio CONFIG_DEBIAN_ARCH=i386
+    - make build/debian.unstableports.riscv64.cpio CONFIG_DEBIAN_ARCH=riscv64 CONFIG_DEBIAN=unstableports
     - make test CONFIG_DISABLE_KVM=yes
