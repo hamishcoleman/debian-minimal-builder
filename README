@@ -3,10 +3,10 @@ Debian ramdisk builder
 
 This directory contains an auto-build system for making a minimal Debian
 system, suitable for including in a ramdisk.  It is tested and known to
-build properly when built on a Debian system.  The Continuous Integration
-environment provided by Travis-CI has been modified in our .travis.yml
-config file to convert it to Debian Stretch - thus avoiding testing on
-a different environment to the recommended one.
+build properly when built on a Debian system.  Occasionally, Ubuntu
+makes changes that are incompatible with Debian and thus the travis-CI
+(based on Ubuntu) build might fail - for an error to be considered for
+fixing, it must be reproducible on a Debian stable system.
 
 It is indended to be simple to add additional configuration at both build
 time and at runtime for specific use cases (see the Configuration sections,
