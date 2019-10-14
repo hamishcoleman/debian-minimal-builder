@@ -63,12 +63,13 @@ authorized_keys
     This directory can then be used by a customise phase script to create
     a real authorized keys file, or serve as a reference while using the built
     ramdisk system.
-debian.$(CONFIG_DEBIAN).multistrap
-    This is the main multistrap config file.  If more than one of these files
-    exists in the CONFIGDIRS then only the last defined one will be used.
-    When replacing this config file with your own, be aware that the list of
-    additional packages (from all the packages.txt files) will be simply
-    appended to the final multistrap config.
+debian.multistrap.jinja
+    This is the template of the multistrap config file.  If more than one of
+    these files exists in the CONFIGDIRS then only the last defined one will
+    be used.  This is a jinja2 template file.
+apt.sources
+    This subdirectory is searched for the deb sources .list file that defines
+    the URL needed to download the main debian packages
 packages.txt
     These files contain a list of additional packages to install in the
     buildroot.  All packages.txt files found in all the CONFIGDIRS will be

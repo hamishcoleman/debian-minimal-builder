@@ -100,16 +100,17 @@ $(TAG)/policy-rc.d.add: policy-rc.d
 # a list of files, which contain additional packages to install
 packages_lists := $(wildcard $(addsuffix /packages.txt,$(CONFIGDIRS)))
 
-multistrap_conf_base := debian.$(CONFIG_DEBIAN).multistrap
-multistrap_conf_src := $(lastword $(wildcard $(addsuffix /$(multistrap_conf_base),$(CONFIGDIRS))))
+multistrap_jinja := debian.multistrap.jinja
+multistrap_jinja_src := $(lastword $(wildcard $(addsuffix /$(multistrap_jinja),$(CONFIGDIRS))))
+multistrap_apt_source := $(lastword $(wildcard $(addsuffix /apt.sources/$(CONFIG_DEBIAN).list,$(CONFIGDIRS))))
 
-MULTISTRAP_CONF=$(BUILD)/$(multistrap_conf_base)
+MULTISTRAP_CONF=$(BUILD)/debian.$(CONFIG_DEBIAN).multistrap
 
 $(MULTISTRAP_CONF): scripts/multistrapconf-create
-$(MULTISTRAP_CONF): $(multistrap_conf_src) $(packages_lists)
+$(MULTISTRAP_CONF): $(multistrap_jinja_src) $(packages_lists)
 	scripts/multistrapconf-create \
-	    --source apt.sources/$(CONFIG_DEBIAN).list \
-	    --template $(multistrap_conf_src) \
+	    --source $(multistrap_apt_source) \
+	    --template $(multistrap_jinja_src) \
 	    $(addprefix --packagefile=, $(packages_lists)) \
 	    --output $@
 

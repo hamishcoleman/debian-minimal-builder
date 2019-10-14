@@ -1,16 +1,16 @@
 [General]
-bootstrap=Unstable
-aptsources=Unstable
+bootstrap=MainSources
+aptsources=MainSources
 configscript=multistrap.configscript
 
 cleanup=true
 
-[Unstable]
-source=http://deb.debian.org/debian-ports
-suite=unstable
+[MainSources]
+source={{ source.uri }}
+suite={{ source.suite }}
 omitdebsrc=true
-keyring=debian-ports-archive-keyring
-components=main contrib non-free
+keyring=debian-archive-keyring
+components={{ ' '.join(source.components) }}
 
 # Base system needs these three packages
 packages= systemd udev kmod dbus
