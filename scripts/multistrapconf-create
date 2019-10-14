@@ -60,11 +60,7 @@ def main():
 
     output = open(args.output, 'w')
 
-    print(template.render(), file=output)
-
-    if packages:
-        print(file=output)
-        print("packages=", ' '.join(packages), file=output)
+    print(template.render(packages=packages), file=output)
 
 
 if __name__ == '__main__':

@@ -37,3 +37,7 @@ packages= iw hostapd
 packages= netcat-traditional
 
 # libreadline7 ? gets /etc/inputrc, which should make ctrl-arrows work
+
+{% if packages %}
+packages= {{ ' '.join(packages) }}
+{% endif %}
