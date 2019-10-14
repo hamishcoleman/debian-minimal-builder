@@ -8,6 +8,7 @@
 # - load lines formatted like apt.sources to construct the multistrap source
 
 import argparse
+import jinja2
 
 
 def argsparser():
@@ -16,7 +17,6 @@ def argsparser():
     parser.add_argument('--packagefile', nargs='+',
                         help='Add the packages listed in this file')
     parser.add_argument('--template', required=True,
-                        type=argparse.FileType('r'),
                         help='The template multistrap conf to use')
     parser.add_argument('--output', required=True,
                         help='Name of the output file')
@@ -51,10 +51,16 @@ def main():
     if args.packagefile:
         packages = read_packages(args.packagefile)
 
+    env = jinja2.Environment(
+            # TODO
+            # - use config search path from Makefile
+            loader=jinja2.FileSystemLoader('.')
+    )
+    template = env.get_template(args.template)
+
     output = open(args.output, 'w')
 
-    for line in args.template:
-        print(line.strip(), file=output)
+    print(template.render(), file=output)
 
     if packages:
         print(file=output)

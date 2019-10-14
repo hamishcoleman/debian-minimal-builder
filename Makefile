@@ -27,6 +27,7 @@ BUILD_DEPENDS = \
     qemu-system-x86 \
     expect \
     shellcheck \
+    python3-jinja2 \
     python3-libarchive-c \
     flake8
 
