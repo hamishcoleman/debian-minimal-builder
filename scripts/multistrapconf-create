@@ -4,8 +4,7 @@
 # the multistrap config file that we will actually use
 #
 # TODO:
-# - possibly use a template language to interpret the --template file
-# - load lines formatted like apt.sources to construct the multistrap source
+# - support loading multiple sources files
 
 import argparse
 import jinja2
@@ -14,6 +13,8 @@ import jinja2
 def argsparser():
     parser = argparse.ArgumentParser(
             description='Create the multistrap conf')
+    parser.add_argument('--source', required=True,
+                        help='The base name of the debian source to load')
     parser.add_argument('--packagefile', nargs='+',
                         help='Add the packages listed in this file')
     parser.add_argument('--template', required=True,
@@ -43,6 +44,37 @@ def read_packages(files):
     return list(packages.keys())
 
 
+def read_source(file):
+    """Reads the debian package source file"""
+    # TODO:
+    # - surely there is a generic "ignore comment lines and blank line" parser
+    # - of course, there is also deb822 style files to be concerned about
+
+    input = open(file, 'r')
+    source = dict()
+
+    for line in input:
+        line = line.strip()
+        if not line:
+            continue
+        if line.startswith('#'):
+            continue
+
+        fields = line.split()
+
+        if fields[0] != 'deb':
+            raise ValueError("Only 'deb' lines are supported")
+
+        if 'uri' in source:
+            raise ValueError("Only supports one source per file")
+
+        source['uri'] = fields[1]
+        source['suite'] = fields[2]
+        source['components'] = fields[3:]
+
+    return source
+
+
 def main():
     args = argsparser()
 
@@ -50,6 +82,8 @@ def main():
 
     if args.packagefile:
         packages = read_packages(args.packagefile)
+
+    source = read_source(args.source)
 
     env = jinja2.Environment(
             # TODO
@@ -60,7 +94,13 @@ def main():
 
     output = open(args.output, 'w')
 
-    print(template.render(packages=packages), file=output)
+    print(
+        template.render(
+            packages=packages,
+            source=source,
+        ),
+        file=output
+    )
 
 
 if __name__ == '__main__':

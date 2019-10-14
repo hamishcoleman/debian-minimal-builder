@@ -6,11 +6,11 @@ configscript=multistrap.configscript
 cleanup=true
 
 [Buster]
-source=http://httpredir.debian.org/debian
-suite=buster
+source={{ source.uri }}
+suite={{ source.suite }}
 omitdebsrc=true
 keyring=debian-archive-keyring
-components=main contrib non-free
+components={{ ' '.join(source.components) }}
 
 # Base system needs these three packages
 packages= systemd udev kmod dbus

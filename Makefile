@@ -108,6 +108,7 @@ MULTISTRAP_CONF=$(BUILD)/$(multistrap_conf_base)
 $(MULTISTRAP_CONF): scripts/multistrapconf-create
 $(MULTISTRAP_CONF): $(multistrap_conf_src) $(packages_lists)
 	scripts/multistrapconf-create \
+	    --source apt.sources/$(CONFIG_DEBIAN).list \
 	    --template $(multistrap_conf_src) \
 	    $(addprefix --packagefile=, $(packages_lists)) \
 	    --output $@
