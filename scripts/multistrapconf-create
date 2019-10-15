@@ -57,20 +57,30 @@ def read_source(file):
         line = line.strip()
         if not line:
             continue
-        if line.startswith('#'):
-            continue
 
         fields = line.split()
 
-        if fields[0] != 'deb':
+        if line.startswith('##builder'):
+            # This is a meta setting specificly for this builder system
+
+            # TODO:
+            # - should there be a list of allowed variables?
+            source[fields[1]] = fields[2]
+
+        elif line.startswith('#'):
+            # This is a comment line
+            continue
+
+        elif line.startswith('deb'):
+            if 'uri' in source:
+                raise ValueError("Only supports one source per file")
+
+            source['uri'] = fields[1]
+            source['suite'] = fields[2]
+            source['components'] = fields[3:]
+
+        else:
             raise ValueError("Only 'deb' lines are supported")
-
-        if 'uri' in source:
-            raise ValueError("Only supports one source per file")
-
-        source['uri'] = fields[1]
-        source['suite'] = fields[2]
-        source['components'] = fields[3:]
 
     return source
 

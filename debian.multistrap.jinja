@@ -9,7 +9,7 @@ cleanup=true
 source={{ source.uri }}
 suite={{ source.suite }}
 omitdebsrc=true
-keyring=debian-archive-keyring
+keyring={{ source.keyring }}
 components={{ ' '.join(source.components) }}
 
 # Base system needs these three packages

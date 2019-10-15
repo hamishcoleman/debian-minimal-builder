@@ -69,7 +69,11 @@ debian.multistrap.jinja
     be used.  This is a jinja2 template file.
 apt.sources
     This subdirectory is searched for the deb sources .list file that defines
-    the URL needed to download the main debian packages
+    the URL needed to download the main debian packages.
+    To be able to pass additional settings into the multistrap template, lines
+    of the form "##builder $variable $value" can be added to these files.
+    This was specifically added to support defining the archive keyring
+    package name, but could be used for other purposes.
 packages.txt
     These files contain a list of additional packages to install in the
     buildroot.  All packages.txt files found in all the CONFIGDIRS will be

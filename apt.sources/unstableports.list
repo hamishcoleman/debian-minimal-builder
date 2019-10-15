@@ -2,3 +2,4 @@
 # The unstable ports is where some newer architectures are still stablising
 
 deb http://deb.debian.org/debian-ports unstable main contrib non-free
+##builder keyring debian-ports-archive-keyring
