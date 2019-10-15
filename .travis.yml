@@ -28,7 +28,7 @@ before_deploy:
     - git remote set-url origin https://hamishcoleman:$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG
     - git tag --delete prerelease || echo no existing prerelease tag
     - git tag prerelease
-    - git push --tags
+    - git push --force --tags
     - test -z "$TRAVIS_TAG" && export TRAVIS_TAG=prerelease
 
 deploy:
