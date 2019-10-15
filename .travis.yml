@@ -23,18 +23,22 @@ script:
     - make test CONFIG_DISABLE_KVM=yes
 
 before_deploy:
-    - git config --local user.name "Hamish Coleman"
-    - git config --local user.email "hamish@zot.org"
-    - git tag prerelease
+    - export TRAVIS_TAG=prerelease
 
 deploy:
     provider: releases
     api_key: "$GITHUB_TOKEN"
     skip_cleanup: true
+    body: "Automatic release created by travis-ci integration"
+    prerelease: true
     overwrite: true
+    name: "prerelease"
     file:
         - "build/debian.buster.armhf.cpio"
         - "build/debian.buster.arm64.cpio"
         - "build/debian.buster.i386.cpio"
         - "build/debian.buster.mipsel.cpio"
         - "build/debian.unstableports.riscv64.cpio"
+    on:
+        branch: master
+        tags: true
