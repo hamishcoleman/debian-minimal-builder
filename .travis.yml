@@ -23,12 +23,10 @@ script:
     - make test CONFIG_DISABLE_KVM=yes
 
 before_deploy:
-    if [ -z "$TRAVIS_TAG" ]; then
-        export TRAVIS_TAG=prerelease
-        git config --local user.name "Hamish Coleman"
-        git config --local user.email "hamish@zot.org"
-        git tag $TRAVIS_TAG || echo Using existing tag
-    fi
+    - git config --local user.name "Hamish Coleman"
+    - git config --local user.email "hamish@zot.org"
+    - git tag prerelease || echo Using existing tag
+    - [ -z "$TRAVIS_TAG" ] && export TRAVIS_TAG=prerelease
 
 deploy:
     provider: releases
