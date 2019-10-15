@@ -43,4 +43,3 @@ deploy:
         - "build/debian.unstableports.riscv64.cpio"
     on:
         branch: master
-        tags: true
