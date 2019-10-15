@@ -21,3 +21,11 @@ script:
     - make build/debian.buster.mipsel.cpio CONFIG_DEBIAN_ARCH=mipsel
     - make build/debian.unstableports.riscv64.cpio CONFIG_DEBIAN_ARCH=riscv64 CONFIG_DEBIAN=unstableports
     - make test CONFIG_DISABLE_KVM=yes
+
+after_script:
+    - curl -O https://raw.githubusercontent.com/danvk/travis-weigh-in/master/weigh_in.py
+    - python weigh_in.py build/debian.buster.armhf.cpio
+    - python weigh_in.py build/debian.buster.arm64.cpio
+    - python weigh_in.py build/debian.buster.i386.cpio
+    - python weigh_in.py build/debian.buster.mipsel.cpio
+    - python weigh_in.py build/debian.unstableports.riscv64.cpio
