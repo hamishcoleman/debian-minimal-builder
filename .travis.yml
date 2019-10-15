@@ -26,7 +26,7 @@ before_deploy:
     - git config --local user.name "Hamish Coleman"
     - git config --local user.email "hamish@zot.org"
     - git tag prerelease || echo Using existing tag
-    - [ -z "$TRAVIS_TAG" ] && export TRAVIS_TAG=prerelease
+    - [[ "$TRAVIS_TAG" ]] && export TRAVIS_TAG=prerelease
 
 deploy:
     provider: releases
