@@ -31,19 +31,35 @@ before_deploy:
     - ./scripts/travis_before_deploy || export TRAVIS_TAG=prerelease
 
 deploy:
-    provider: releases
-    api_key: "$GITHUB_TOKEN"
-    skip_cleanup: true
-    body: "Automatic release created by travis-ci integration"
-    prerelease: true
-    overwrite: true
-    file:
-        - "build/debian.buster.armhf.cpio"
-        - "build/debian.buster.arm64.cpio"
-        - "build/debian.buster.i386.cpio"
-        - "build/debian.buster.amd64.cpio"
-        - "build/debian.buster.mipsel.cpio"
-        - "build/debian.unstableports.riscv64.cpio"
-    on:
-        all_branches: true
-        condition: $TRAVIS_BRANCH != prerelease
+    - provider: releases
+      api_key: "$GITHUB_TOKEN"
+      skip_cleanup: true
+      body: "Most recent build - automatically generated from travis-ci"
+      prerelease: true
+      overwrite: true
+      name: prerelease
+      file:
+          - "build/debian.buster.armhf.cpio"
+          - "build/debian.buster.arm64.cpio"
+          - "build/debian.buster.i386.cpio"
+          - "build/debian.buster.amd64.cpio"
+          - "build/debian.buster.mipsel.cpio"
+          - "build/debian.unstableports.riscv64.cpio"
+      on:
+          tags: false
+
+    - provider: releases
+      api_key: "$GITHUB_TOKEN"
+      skip_cleanup: true
+      body: "Automatic release of tagged commit - generated from travis-ci"
+      prerelease: true
+      file:
+          - "build/debian.buster.armhf.cpio"
+          - "build/debian.buster.arm64.cpio"
+          - "build/debian.buster.i386.cpio"
+          - "build/debian.buster.amd64.cpio"
+          - "build/debian.buster.mipsel.cpio"
+          - "build/debian.unstableports.riscv64.cpio"
+      on:
+          all_branches: true
+          condition: $TRAVIS_BRANCH != prerelease
