@@ -3,6 +3,10 @@ dist: bionic
 
 language: minimal
 
+branches:
+    except:
+    - prerelease
+
 install:
     - sudo apt-get update
     - make build-depends
