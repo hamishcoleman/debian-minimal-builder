@@ -61,5 +61,5 @@ deploy:
           - "build/debian.buster.mipsel.cpio"
           - "build/debian.unstableports.riscv64.cpio"
       on:
-          all_branches: true
+          tags: true
           condition: $TRAVIS_BRANCH != prerelease
