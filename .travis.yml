@@ -45,5 +45,3 @@ deploy:
         - "build/debian.buster.amd64.cpio"
         - "build/debian.buster.mipsel.cpio"
         - "build/debian.unstableports.riscv64.cpio"
-    on:
-        tags: true
