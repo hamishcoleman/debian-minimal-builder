@@ -27,6 +27,7 @@ before_deploy:
     - git config --local user.name "Automated Dummy User"
     - git config --local user.email "noreply@example.com"
     - git remote set-url origin https://${TRAVIS_REPO_SLUG%%/*}:$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG
+    - test -z "$TRAVIS_TAG" && echo TRAVIS_TAG was not set
     - test -z "$TRAVIS_TAG" && git tag --force prerelease
     - test -z "$TRAVIS_TAG" && git push --force --tags
     - test -z "$TRAVIS_TAG" && export TRAVIS_TAG=prerelease
