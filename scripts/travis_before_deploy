@@ -1,0 +1,24 @@
+#!/bin/bash
+#
+# I would like every successful build on the master branch to upload the
+# generated binaries to a "prerelease" tag on github - thus making the files
+# avilable to any interested parties
+#
+# This requires working around travis-CI
+
+if [ -n "$TRAVIS_TAG" ]; then
+    echo TRAVIS_TAG is already set, this commit is already tagged
+    exit 0
+fi
+
+git config --local user.name "Automated Dummy User"
+git config --local user.email "noreply@example.com"
+git remote set-url origin https://${TRAVIS_REPO_SLUG%%/*}:$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG
+
+git tag --force prerelease
+git push --force --tags
+
+exit 1
+
+# The travis before_deploy script can detect this exit code:
+# - ./scripts/travis_before_deploy || export TRAVIS_TAG=prerelease
