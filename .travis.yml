@@ -4,8 +4,9 @@ dist: bionic
 language: minimal
 
 branches:
-    except:
-    - prerelease
+    only:
+    - master
+    - /^v.*/
 
 install:
     - sudo apt-get update
