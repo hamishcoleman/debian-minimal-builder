@@ -3,11 +3,6 @@ dist: bionic
 
 language: minimal
 
-branches:
-    only:
-    - master
-    - /^v.*/
-
 install:
     - sudo apt-get update
     - make build-depends
@@ -50,3 +45,5 @@ deploy:
         - "build/debian.buster.amd64.cpio"
         - "build/debian.buster.mipsel.cpio"
         - "build/debian.unstableports.riscv64.cpio"
+    on:
+        tags: true
