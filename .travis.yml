@@ -37,13 +37,9 @@ deploy:
     body: "Automatic release created by travis-ci integration"
     prerelease: true
     overwrite: true
+    file_glob: true
     file:
-        - "build/debian.buster.armhf.cpio"
-        - "build/debian.buster.arm64.cpio"
-        - "build/debian.buster.i386.cpio"
-        - "build/debian.buster.amd64.cpio"
-        - "build/debian.buster.mipsel.cpio"
-        - "build/debian.unstableports.riscv64.cpio"
+        - build/debian.*.cpio
     on:
         all_branches: true
         condition: $TRAVIS_BRANCH != prerelease
