@@ -10,7 +10,7 @@
 # Default to just looking in the local directory for config files
 CONFIGDIRS ?= .
 
-CONFIG_DEBIAN = buster
+CONFIG_DISTRO = buster
 CONFIG_DEBIAN_ARCH ?= armhf
 
 CONFIG_ROOT_PASS = root
@@ -18,7 +18,7 @@ CONFIG_ROOT_PASS = root
 # Directories
 BUILD = build
 TAG = $(BUILD)/tags
-DEBOOT = $(BUILD)/debian.$(CONFIG_DEBIAN).$(CONFIG_DEBIAN_ARCH)
+DEBOOT = $(BUILD)/debian.$(CONFIG_DISTRO).$(CONFIG_DEBIAN_ARCH)
 
 BUILD_DEPENDS = \
     multistrap \
@@ -34,7 +34,7 @@ BUILD_DEPENDS = \
 # A default target to tell you what other targets might work
 all:
 	$(info Build a platform neutral debian install)
-	$(info Try: $(MAKE) build/debian.$(CONFIG_DEBIAN).armhf.cpio CONFIG_DEBIAN_ARCH=$(CONFIG_DEBIAN_ARCH))
+	$(info Try: $(MAKE) build/debian.$(CONFIG_DISTRO).armhf.cpio CONFIG_DEBIAN_ARCH=$(CONFIG_DEBIAN_ARCH))
 	$(info or other variations for i386)
 
 # Build and boot a test environment
@@ -102,9 +102,9 @@ packages_lists := $(wildcard $(addsuffix /packages.txt,$(CONFIGDIRS)))
 
 multistrap_jinja := debian.multistrap.jinja
 multistrap_jinja_src := $(lastword $(wildcard $(addsuffix /$(multistrap_jinja),$(CONFIGDIRS))))
-multistrap_apt_source := $(lastword $(wildcard $(addsuffix /apt.sources/$(CONFIG_DEBIAN).list,$(CONFIGDIRS))))
+multistrap_apt_source := $(lastword $(wildcard $(addsuffix /apt.sources/$(CONFIG_DISTRO).list,$(CONFIGDIRS))))
 
-MULTISTRAP_CONF=$(BUILD)/debian.$(CONFIG_DEBIAN).multistrap
+MULTISTRAP_CONF=$(BUILD)/debian.$(CONFIG_DISTRO).multistrap
 
 $(MULTISTRAP_CONF): scripts/multistrapconf-create
 $(MULTISTRAP_CONF): $(multistrap_jinja_src) $(packages_lists)
@@ -195,7 +195,7 @@ debian: $(TAG)/debian.$(CONFIG_DEBIAN_ARCH)
 $(TAG)/debian.$(CONFIG_DEBIAN_ARCH): $(TAG)/minimise.$(CONFIG_DEBIAN_ARCH) $(TAG)/fixup.$(CONFIG_DEBIAN_ARCH) $(TAG)/customise.$(CONFIG_DEBIAN_ARCH)
 	$(call tag,debian.$(CONFIG_DEBIAN_ARCH))
 
-$(BUILD)/debian.$(CONFIG_DEBIAN).$(CONFIG_DEBIAN_ARCH).cpio: $(TAG)/debian.$(CONFIG_DEBIAN_ARCH)
+$(BUILD)/debian.$(CONFIG_DISTRO).$(CONFIG_DEBIAN_ARCH).cpio: $(TAG)/debian.$(CONFIG_DEBIAN_ARCH)
 	( \
             cd $(DEBOOT); \
             sudo find . -print0 | sudo cpio -0 -H newc -R 0:0 -o \
@@ -215,7 +215,7 @@ include $(CONFIGDIR_DEPS)
 
 clean:
 	rm -f $(MULTISTRAP_CONF) $(TAG)/* $(CONFIGDIR_DEPS)
-	sudo rm -rf $(BUILD)/debian.$(CONFIG_DEBIAN).*
+	sudo rm -rf $(BUILD)/debian.$(CONFIG_DISTRO).*
 
 reallyclean:
 	rm -rf $(BUILD)
