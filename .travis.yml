@@ -24,7 +24,7 @@ script:
     - make build/debian.buster.i386.cpio CONFIG_DEBIAN_ARCH=i386
     - make build/debian.buster.amd64.cpio CONFIG_DEBIAN_ARCH=amd64
     - make build/debian.buster.mipsel.cpio CONFIG_DEBIAN_ARCH=mipsel
-    - make build/debian.unstableports.riscv64.cpio CONFIG_DEBIAN_ARCH=riscv64 CONFIG_DEBIAN=unstableports
+    - make build/debian.unstableports.riscv64.cpio CONFIG_DEBIAN_ARCH=riscv64 CONFIG_DISTRO=unstableports
     - make test CONFIG_DISABLE_KVM=yes
 
 before_deploy:
