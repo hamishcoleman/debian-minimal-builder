@@ -10,7 +10,7 @@
 # Default to just looking in the local directory for config files
 CONFIGDIRS ?= .
 
-CONFIG_DISTRO = buster
+CONFIG_DISTRO ?= buster
 CONFIG_DEBIAN_ARCH ?= armhf
 
 CONFIG_ROOT_PASS = root
@@ -42,8 +42,7 @@ all:
 	$(info (possibly setting CONFIG_DISTRO for some special cases))
 
 .PHONY: cpio
-cpio:
-	$(MAKE) build/debian.$(CONFIG_DISTRO).$(CONFIG_DEBIAN_ARCH).cpio
+cpio: build/debian.$(CONFIG_DISTRO).$(CONFIG_DEBIAN_ARCH).cpio
 
 # Build and boot a test environment
 .PHONY: test_run
