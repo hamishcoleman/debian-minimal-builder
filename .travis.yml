@@ -3,13 +3,14 @@ dist: bionic
 
 language: minimal
 
-env:
-    - CONFIG_DEBIAN_ARCH=armhf
-    - CONFIG_DEBIAN_ARCH=arm64
-    - CONFIG_DEBIAN_ARCH=i386
-    - CONFIG_DEBIAN_ARCH=amd64
-    - CONFIG_DEBIAN_ARCH=mipsel
-    - CONFIG_DEBIAN_ARCH=riscv64 CONFIG_DISTRO=unstableports
+jobs:
+    include:
+        - env: CONFIG_DEBIAN_ARCH=armhf
+        - env: CONFIG_DEBIAN_ARCH=arm64
+        - env: CONFIG_DEBIAN_ARCH=i386
+        - env: CONFIG_DEBIAN_ARCH=amd64
+        - env: CONFIG_DEBIAN_ARCH=mipsel
+        - env: CONFIG_DEBIAN_ARCH=riscv64 CONFIG_DISTRO=unstableports
 
 branches:
     except:
