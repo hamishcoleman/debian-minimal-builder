@@ -3,6 +3,14 @@ dist: bionic
 
 language: minimal
 
+env:
+    - CONFIG_DEBIAN_ARCH=armhf
+    - CONFIG_DEBIAN_ARCH=arm64
+    - CONFIG_DEBIAN_ARCH=i386
+    - CONFIG_DEBIAN_ARCH=amd64
+    - CONFIG_DEBIAN_ARCH=mipsel
+    - CONFIG_DEBIAN_ARCH=riscv64 CONFIG_DISTRO=unstableports
+
 branches:
     except:
     - prerelease
@@ -19,12 +27,7 @@ install:
     - cat /proc/sys/fs/binfmt_misc/qemu-riscv64
 
 script:
-    - make build/debian.buster.armhf.cpio CONFIG_DEBIAN_ARCH=armhf
-    - make build/debian.buster.arm64.cpio CONFIG_DEBIAN_ARCH=arm64
-    - make build/debian.buster.i386.cpio CONFIG_DEBIAN_ARCH=i386
-    - make build/debian.buster.amd64.cpio CONFIG_DEBIAN_ARCH=amd64
-    - make build/debian.buster.mipsel.cpio CONFIG_DEBIAN_ARCH=mipsel
-    - make build/debian.unstableports.riscv64.cpio CONFIG_DEBIAN_ARCH=riscv64 CONFIG_DISTRO=unstableports
+    - make cpio
     - make test CONFIG_DISABLE_KVM=yes
 
 before_deploy:
