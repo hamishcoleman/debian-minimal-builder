@@ -20,6 +20,8 @@ install:
     - sudo apt-get update
     - make build-depends
     - sudo update-binfmts --disable
+    - dpkg -l binfmt-support
+    - dpkg -L binfmt-support
     - sudo rm /var/lib/binfmts/qemu-*
     - sudo sed -i 's/bionic/cosmic/g' /etc/apt/sources.list
     - sudo apt-get update
