@@ -6,7 +6,6 @@ language: shell
 jobs:
     include:
         - env: CONFIG_DEBIAN_ARCH=armhf
-          arch: armhf
         - env: CONFIG_DEBIAN_ARCH=arm64
         - env: CONFIG_DEBIAN_ARCH=i386
         - env: CONFIG_DEBIAN_ARCH=amd64
