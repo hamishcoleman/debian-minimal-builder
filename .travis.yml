@@ -1,7 +1,7 @@
-sudo: enabled
+os: linux
 dist: bionic
 
-language: minimal
+language: shell
 
 jobs:
     include:
@@ -37,9 +37,9 @@ before_deploy:
 
 deploy:
     provider: releases
-    api_key: "$GITHUB_TOKEN"
+    token: "$GITHUB_TOKEN"
     skip_cleanup: true
-    body: "Automatic release created by travis-ci integration"
+    release_notes: "Automatic release created by travis-ci integration"
     prerelease: true
     overwrite: true
     file_glob: true
