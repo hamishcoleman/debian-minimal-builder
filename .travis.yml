@@ -10,7 +10,11 @@ jobs:
         - env: CONFIG_DEBIAN_ARCH=i386
         - env: CONFIG_DEBIAN_ARCH=amd64
         - env: CONFIG_DEBIAN_ARCH=mipsel
-        - env: CONFIG_DEBIAN_ARCH=riscv64 CONFIG_DISTRO=unstableports
+
+# TODO: look into debian bug #952655 and figure out why the newer
+#   debian-ports-archive-keyring still doesnt fix the expired key
+#   error while multistrap is validating the unstableports repo
+#        - env: CONFIG_DEBIAN_ARCH=riscv64 CONFIG_DISTRO=unstableports
 
 branches:
     except:
