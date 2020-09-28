@@ -16,4 +16,4 @@ expect {
 
 # Some simple outputs for checking timing
 cmdline "date"
-cmdline "uptime"
+cmdline "cat /proc/loadavg"
