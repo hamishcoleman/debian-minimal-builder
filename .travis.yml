@@ -1,5 +1,5 @@
 os: linux
-dist: bionic
+dist: focal
 
 language: shell
 
@@ -23,13 +23,6 @@ branches:
 install:
     - sudo apt-get update
     - make build-depends
-    - sudo update-binfmts --disable
-    - dpkg -l binfmt-support
-    - dpkg -L binfmt-support
-    - sudo rm /var/lib/binfmts/qemu-*
-    - sudo sed -i 's/bionic/eoan/g' /etc/apt/sources.list
-    - sudo apt-get update
-    - sudo apt-get install qemu-user-static
     - cat /proc/sys/fs/binfmt_misc/qemu-arm
     - cat /proc/sys/fs/binfmt_misc/qemu-riscv64
 
