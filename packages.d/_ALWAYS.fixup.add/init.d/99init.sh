@@ -3,4 +3,4 @@
 #
 # Finish up our pre-boot by starting the normal system init
 
-exec /sbin/init
+exec /lib/systemd/systemd
