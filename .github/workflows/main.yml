@@ -1,0 +1,22 @@
+name: CI
+
+on: [push]
+
+jobs:
+  check:
+    name: make test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Dependancies
+        run: |
+          sudo apt-get update
+          sudo make build-depends
+      - run: make cpio
+      - run: make test CONFIG_DISABLE_KVM=yes
+
+# TODO:
+# - monthly scheduled rebuild
+# - build for the same archs that the travis build did
+# - deploy the artifacts, like the travis build did
