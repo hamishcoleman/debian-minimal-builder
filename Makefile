@@ -138,11 +138,11 @@ builddir:
 
 # multistrap-pre runs the basic multistrap program, installing the packages
 # until they need to run native code
-$(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH): builddir
 $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH): $(TAG)/policy-rc.d.add
 $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH): $(MULTISTRAP_CONF)
 $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH): multistrap.configscript
 $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH): $(DEBOOT)/dev/urandom
+	mkdir -p $(BUILD)
 	sudo /usr/sbin/multistrap -d $(DEBOOT) --arch $(CONFIG_DEBIAN_ARCH) \
 	    -f $(MULTISTRAP_CONF) >$(BUILD)/multistrap-pre.log
 	$(call tag,multistrap-pre.$(CONFIG_DEBIAN_ARCH))
