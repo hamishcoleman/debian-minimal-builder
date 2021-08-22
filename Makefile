@@ -236,6 +236,7 @@ reallyclean:
 	git checkout $(BUILD)/README
 
 define tag
+	@ls -ald $(TAG)
 	@echo Touching tag $1
 	@mkdir -p $(TAG)
 	@touch $(TAG)/$1
