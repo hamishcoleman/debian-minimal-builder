@@ -12,7 +12,7 @@ jobs:
       - name: Install Dependancies
         run: |
           sudo apt-get update
-          sudo make build-depends
+          make build-depends
       - run: make cpio
       - run: make test CONFIG_DISABLE_KVM=yes
 
