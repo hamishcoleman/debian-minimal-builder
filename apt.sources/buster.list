@@ -1,5 +1,0 @@
-#
-# The standard debian stable reference for Buster
-
-deb http://httpredir.debian.org/debian buster main contrib non-free
-##builder keyring debian-archive-keyring

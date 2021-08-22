@@ -1,0 +1,5 @@
+#
+# The standard debian stable reference for Bullseye
+
+deb http://httpredir.debian.org/debian bullseye main contrib non-free
+##builder keyring debian-archive-keyring
