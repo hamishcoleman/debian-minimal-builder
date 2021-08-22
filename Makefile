@@ -107,7 +107,7 @@ $(TAG)/build-depends: Makefile
 
 # some of the debian packages need a urandom to install properly
 $(DEBOOT)/dev/urandom:
-	mkdir -p $(DEBOOT)/dev
+	sudo mkdir -p $(DEBOOT)/dev
 	sudo mknod $(DEBOOT)/dev/urandom c 1 9
 
 $(TAG)/policy-rc.d.add: policy-rc.d
