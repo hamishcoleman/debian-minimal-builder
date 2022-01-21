@@ -86,6 +86,39 @@ jobs:
           name: cpio
           path: build/*.cpio
 
+  fulltests:
+    needs: builds
+    name: Perform full VM boot test
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        arch:
+          - amd64
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Fix Checkout
+        run: |
+          git fetch --force --tags
+
+      - name: Install Dependancies
+        run: |
+          sudo apt-get update
+          make build-depends
+
+      - name: Fetch all Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: build
+
+      - name: Full test
+        run: |
+          export CONFIG_DISABLE_KVM=yes
+          make test
+
 
 # TODO:
 # - deploy the artifacts into a release object
