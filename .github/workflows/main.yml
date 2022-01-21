@@ -94,7 +94,7 @@ jobs:
       fail-fast: true
       matrix:
         arch:
-          - amd64
+          - i386
 
     steps:
       - uses: actions/checkout@v2
