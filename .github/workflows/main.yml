@@ -49,6 +49,7 @@ jobs:
           make shellcheck flake8
 
   builds:
+    needs: smoketest
     name: Perform builds
     runs-on: ubuntu-latest
     strategy:
