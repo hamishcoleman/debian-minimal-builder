@@ -1,26 +1,53 @@
 ---
 name: CI
 
+# yamllint disable-line rule:truthy
 on:
   push:
+  pull_request:
   schedule:
     - cron: "* * 22 * *"
 
 jobs:
-  check:
-    name: make test
+  smoketest:
+    name: Smoke test
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Fix Checkout
+        run: |
+          git fetch --force --tags
+
+      - name: Run minimal test build
+        run: |
+          sudo apt-get update
+          make build-depends
+          make cpio
+
+  lint:
+    name: Code syntax
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Fix Checkout
+        run: |
+          git fetch --force --tags
+
       - name: Install Dependancies
         run: |
           sudo apt-get update
           make build-depends
-      - run: make cpio
-      - run: make test CONFIG_DISABLE_KVM=yes
+
+      - name: Run the lint tools
+        run: |
+          make shellcheck flake8
 
 # TODO:
-# - monthly scheduled rebuild
 # - build for the same archs that the travis build did
 # - deploy the artifacts, like the travis build did
