@@ -6,6 +6,12 @@
 # - Convert the minimalisation step into an excludes file generator
 #   and use that file in the cpio step
 # - Add config file list / save to sdcard / load from sdcard package
+# - Cache package downloads
+#   - multistrap template set cleanup=false
+#   - makefile populate the build/.../var/cache/apt/archives/ from cache
+#   - makefile repopulate the cache after build
+#   - makefile delete the files from build/.../var/cache/apt/archives/
+#   - CI fill the cache from a cache provider
 
 # Default to just looking in the local directory for config files
 CONFIGDIRS ?= .
