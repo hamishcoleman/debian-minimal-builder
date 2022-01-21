@@ -117,8 +117,10 @@ jobs:
       - name: Full test
         run: |
           export CONFIG_DISABLE_KVM=yes
+          export CONFIG_DEBIAN_ARCH=${{ matrix.arch }}
           make test
 
 
 # TODO:
 # - deploy the artifacts into a release object
+# - cache the dpkg downloads
