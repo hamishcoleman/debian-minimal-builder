@@ -56,8 +56,11 @@ jobs:
       fail-fast: true
       matrix:
         arch:
-          - armhf
           - amd64
+          - arm64
+          - armhf
+          - i386
+          - mipsel
 
     steps:
       - uses: actions/checkout@v2
@@ -85,5 +88,4 @@ jobs:
 
 
 # TODO:
-# - build for the same archs that the travis build did
-# - deploy the artifacts, like the travis build did
+# - deploy the artifacts into a release object
