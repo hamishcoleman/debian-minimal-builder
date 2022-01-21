@@ -48,6 +48,41 @@ jobs:
         run: |
           make shellcheck flake8
 
+  builds:
+    name: Perform builds
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        arch:
+          - armhf
+          - amd64
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Fix Checkout
+        run: |
+          git fetch --force --tags
+
+      - name: Install Dependancies
+        run: |
+          sudo apt-get update
+          make build-depends
+
+      - name: Build
+        run: |
+          export CONFIG_DEBIAN_ARCH=${{ matrix.arch }}
+          make cpio
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: cpio
+          path: build/*.cpio
+
+
 # TODO:
 # - build for the same archs that the travis build did
 # - deploy the artifacts, like the travis build did
