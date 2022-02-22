@@ -6,7 +6,7 @@ on:
   push:
   pull_request:
   schedule:
-    - cron: "* * 22 * *"
+    - cron: "0 0 22 * *"
 
 jobs:
   smoketest:
