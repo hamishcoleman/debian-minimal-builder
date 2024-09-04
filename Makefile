@@ -16,7 +16,7 @@
 # Default to just looking in the local directory for config files
 CONFIGDIRS ?= .
 
-CONFIG_DISTRO ?= bullseye
+CONFIG_DISTRO ?= bookworm
 CONFIG_DEBIAN_ARCH ?= armhf
 
 CONFIG_ROOT_PASS = root
@@ -145,6 +145,9 @@ $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH): $(TAG)/policy-rc.d.add
 $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH): $(MULTISTRAP_CONF)
 $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH): multistrap.configscript
 $(TAG)/multistrap-pre.$(CONFIG_DEBIAN_ARCH): $(DEBOOT)/dev/urandom
+	sudo mkdir -p $(DEBOOT)/etc
+	sudo cp -p skel.passwd $@
+	sudo cp -p skel.group $@
 	sudo /usr/sbin/multistrap -d $(DEBOOT) --arch $(CONFIG_DEBIAN_ARCH) \
 	    -f $(MULTISTRAP_CONF) >$(BUILD)/multistrap-pre.log
 	$(call tag,multistrap-pre.$(CONFIG_DEBIAN_ARCH))

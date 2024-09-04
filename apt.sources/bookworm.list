@@ -1,0 +1,5 @@
+#
+# The standard debian stable apt repo
+
+deb http://httpredir.debian.org/debian bookworm main contrib non-free
+##builder keyring debian-archive-keyring

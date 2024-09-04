@@ -7,7 +7,6 @@
 # Mount proc, if needed
 if [ ! -e /proc/uptime ]; then
     mount proc -t proc /proc
-    PROC_NEEDS_UMOUNT=1
 fi
 
 # TODO:
@@ -33,8 +32,6 @@ dpkg --configure -a
 # - find the services started above and kill them off, allowing proc to be
 #   unmounted cleanly
 
-if [ "$PROC_NEEDS_UMOUNT" = 1 ]; then
-    umount /proc
-fi
+umount /proc
 
 exit 0
