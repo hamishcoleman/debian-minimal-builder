@@ -37,10 +37,11 @@ CLEAN_FILES += $(DEBIAN_INITRD)
 
 $(DEBIAN_MODULES): $(DEBIAN_INITRD)
 	( \
-	    mkdir -p $(basename $@); \
+	    mkdir -p $(basename $@)/usr/lib; \
 	    cd $(basename $@); \
 	    gzip -dc | cpio --make-directories -i lib/modules/*; \
-	    find lib -print0 | cpio -0 -H newc -R 0:0 -o \
+	    mv lib/modules usr/lib; \
+	    find usr/lib -print0 | cpio -0 -H newc -R 0:0 -o \
 	) <$< >$@
 CLEAN_FILES += $(DEBIAN_MODULES) $(basename $(DEBIAN_MODULES))
 
