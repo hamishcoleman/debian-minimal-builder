@@ -84,7 +84,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: cpio
+          name: cpio-${{ matrix.arch }}
           path: build/*.cpio
 
   fulltests:
@@ -113,6 +113,7 @@ jobs:
       - name: Fetch all Artifacts
         uses: actions/download-artifact@v4
         with:
+          name: cpio-${{ matrix.arch }}
           path: build
 
       - name: Full test
