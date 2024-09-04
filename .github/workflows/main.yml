@@ -110,7 +110,7 @@ jobs:
           sudo apt-get update
           make build-depends
 
-      - name: Fetch all Artifacts
+      - name: Fetch cpio for this arch
         uses: actions/download-artifact@v4
         with:
           name: cpio-${{ matrix.arch }}
