@@ -82,7 +82,7 @@ jobs:
           make cpio
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: cpio
           path: build/*.cpio
@@ -111,7 +111,7 @@ jobs:
           make build-depends
 
       - name: Fetch all Artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           path: build
 
